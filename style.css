@@ -501,14 +501,17 @@ button { cursor: pointer; }
 .related-grid span { display: block; margin-top: 6px; color: var(--muted); font-size: 13px; }
 
 .modal-backdrop {
+  display: none;
   position: fixed;
   inset: 0;
   background: rgba(12, 18, 28, .36);
   z-index: 60;
-  display: grid;
   place-items: center;
   padding: 24px;
 }
+.modal-backdrop.is-open { display: grid; }
+.modal-backdrop[hidden] { display: none !important; }
+
 .category-modal {
   width: min(720px, 100%);
   background: #fff;
