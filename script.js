@@ -441,6 +441,7 @@ function openCategoryModal() {
   `).join('');
   modal.hidden = false;
   modal.classList.add('is-open');
+  document.body.classList.add('modal-open');
   modal.querySelector('[data-close-category-modal]').focus();
 
   grid.onclick = event => {
@@ -455,6 +456,7 @@ function closeCategoryModal() {
   const modal = document.querySelector('[data-category-modal]');
   modal.classList.remove('is-open');
   modal.hidden = true;
+  document.body.classList.remove('modal-open');
 }
 
 document.querySelector('[data-close-category-modal]').addEventListener('click', closeCategoryModal);
