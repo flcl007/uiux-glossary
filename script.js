@@ -5,8 +5,6 @@ const scrollTopBtn = document.querySelector('#scrollTopBtn');
 const HISTORY_KEY = 'uiuxGlossaryRecentSearches';
 const MORE_STEP = 10;
 const INITIAL_COUNT = 2;
-const SUGGESTION_LIMIT = 5;
-let dismissedRelatedSuggestions = new Set();
 let lastQuery = '';
 let lastCategory = '';
 let sectionVisibleCounts = new Map();
@@ -34,13 +32,13 @@ function getRecentSearches() {
 }
 
 function setRecentSearches(list) {
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(list.slice(0, SUGGESTION_LIMIT)));
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(list.slice(0, 5)));
 }
 
 function addRecentSearch(query) {
   const q = query.trim();
   if (!q) return;
-  const next = [q, ...getRecentSearches().filter(item => item !== q)].slice(0, SUGGESTION_LIMIT);
+  const next = [q, ...getRecentSearches().filter(item => item !== q)].slice(0, 5);
   setRecentSearches(next);
 }
 
@@ -85,9 +83,8 @@ function getRelatedSuggestions(query) {
     pool.push(term.ko, term.en, ...(term.tags || []));
   }
   return [...new Set(pool)]
-    .filter(item => !dismissedRelatedSuggestions.has(item))
     .filter(item => normalizeText(item).includes(q) || normalizeText(item).includes(q.slice(0, -1)))
-    .slice(0, SUGGESTION_LIMIT);
+    .slice(0, 7);
 }
 
 function groupByCategory(list) {
@@ -161,7 +158,7 @@ function renderHome() {
   `).join('') + `
     <button class="category-item" type="button" data-open-category-modal>
       <span class="category-item__icon">•••</span>
-      <span class="category-item__label">사전 전체</span>
+      <span class="category-item__label">전체</span>
     </button>
   `;
 
@@ -170,8 +167,14 @@ function renderHome() {
   categoryStrip.addEventListener('click', event => {
     const categoryButton = event.target.closest('[data-category]');
     const modalButton = event.target.closest('[data-open-category-modal]');
-    if (categoryButton) goResults({ category: categoryButton.dataset.category });
-    if (modalButton) openCategoryModal();
+    if (categoryButton) {
+      categoryButton.blur();
+      goResults({ category: categoryButton.dataset.category });
+    }
+    if (modalButton) {
+      modalButton.blur();
+      openCategoryModal();
+    }
   });
 
   input.addEventListener('input', () => {
@@ -179,6 +182,12 @@ function renderHome() {
     clearBtn.classList.toggle('is-visible', hasValue);
     submitBtn.disabled = !hasValue;
     updateSuggestPanel(form, input.value);
+  });
+
+  requestAnimationFrame(() => {
+    if (document.activeElement && document.activeElement !== document.body) {
+      document.activeElement.blur();
+    }
   });
 }
 
@@ -208,36 +217,28 @@ function bindSearchBox(form) {
 function updateSuggestPanel(form, query) {
   const panel = form.querySelector('[data-suggest-panel]');
   if (!panel) return;
-
   const recentSection = form.querySelector('[data-recent-section]');
   const relatedSection = form.querySelector('[data-related-section]');
   const recentList = form.querySelector('[data-recent-list]');
   const relatedList = form.querySelector('[data-related-list]');
   const empty = form.querySelector('[data-suggest-empty]');
-  const trimmedQuery = query.trim();
-  const recent = getRecentSearches().slice(0, SUGGESTION_LIMIT);
+  const recent = getRecentSearches();
   const related = getRelatedSuggestions(query);
 
-  const shouldShowRecent = trimmedQuery.length === 0 && recent.length > 0;
-  const shouldShowRelated = trimmedQuery.length > 0 && related.length > 0;
-  const shouldShowEmpty = trimmedQuery.length > 0 && related.length === 0;
-
-  panel.classList.toggle('is-open', shouldShowRecent || shouldShowRelated || shouldShowEmpty);
-  recentSection.hidden = !shouldShowRecent;
-  relatedSection.hidden = !shouldShowRelated;
-  empty.hidden = !shouldShowEmpty;
+  panel.classList.add('is-open');
+  recentSection.hidden = query.trim().length > 0 || recent.length === 0;
+  relatedSection.hidden = query.trim().length === 0 || related.length === 0;
+  empty.hidden = !(query.trim().length > 0 && related.length === 0);
 
   recentList.innerHTML = recent.map(item => `
     <li>
-      <button class="suggest-query" type="button" data-recent-query="${escapeHTML(item)}">${escapeHTML(item)}</button>
+      <button type="button" data-recent-query="${escapeHTML(item)}">${escapeHTML(item)}</button>
       <button class="delete-recent" type="button" data-delete-recent="${escapeHTML(item)}" aria-label="${escapeHTML(item)} 삭제">×</button>
     </li>
   `).join('');
 
   relatedList.innerHTML = related.map(item => `
-    <li>
-      <button class="suggest-query" type="button" data-related-query="${escapeHTML(item)}">${escapeHTML(item)}</button>
-    </li>
+    <li><button type="button" data-related-query="${escapeHTML(item)}">${escapeHTML(item)}</button></li>
   `).join('');
 
   form.querySelector('[data-clear-history]')?.addEventListener('click', () => {
@@ -253,7 +254,6 @@ function updateSuggestPanel(form, query) {
     const del = event.target.closest('[data-delete-recent]');
     const item = event.target.closest('[data-recent-query]');
     if (del) {
-      event.stopPropagation();
       removeRecentSearch(del.dataset.deleteRecent);
       updateSuggestPanel(form, query);
       return;
@@ -440,8 +440,6 @@ function openCategoryModal() {
     </button>
   `).join('');
   modal.hidden = false;
-  modal.classList.add('is-open');
-  document.body.classList.add('modal-open');
   modal.querySelector('[data-close-category-modal]').focus();
 
   grid.onclick = event => {
@@ -453,24 +451,12 @@ function openCategoryModal() {
 }
 
 function closeCategoryModal() {
-  const modal = document.querySelector('[data-category-modal]');
-  modal.classList.remove('is-open');
-  modal.hidden = true;
-  document.body.classList.remove('modal-open');
+  document.querySelector('[data-category-modal]').hidden = true;
 }
 
 document.querySelector('[data-close-category-modal]').addEventListener('click', closeCategoryModal);
 document.querySelector('[data-category-modal]').addEventListener('click', event => {
   if (event.target.matches('[data-category-modal]')) closeCategoryModal();
-});
-
-document.addEventListener('pointerdown', event => {
-  const openPanel = document.querySelector('.suggest-panel.is-open');
-  if (!openPanel) return;
-  const ownerForm = openPanel.closest('[data-search-form]');
-  if (ownerForm && !ownerForm.contains(event.target)) {
-    openPanel.classList.remove('is-open');
-  }
 });
 
 scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
