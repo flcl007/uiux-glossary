@@ -1,0 +1,203 @@
+window.GLOSSARY_TERMS = [
+  {
+    id: "wireframe",
+    ko: "와이어프레임",
+    en: "Wireframe",
+    category: "UI/UX 기본",
+    tags: ["화면설계", "구조", "레이아웃", "기획"],
+    summary: "색상이나 그래픽보다 화면 구조와 정보 배치를 먼저 정리하는 설계 산출물입니다.",
+    description: "와이어프레임은 최종 디자인을 만들기 전에 화면의 정보 구조, 버튼 위치, 콘텐츠 우선순위를 낮은 충실도로 표현한 문서입니다. 화면의 목적과 흐름을 빠르게 합의하기 위해 사용합니다.",
+    example: "회원가입 화면에서 이메일 입력창, 비밀번호 입력창, 다음 버튼, 약관 동의 영역의 위치를 먼저 배치할 때 사용합니다.",
+    designerNote: "시각 디자인 평가가 아니라 구조 검토용이라는 점을 함께 설명하면 피드백 방향이 명확해집니다.",
+    image: "./assets/images/wireframe.svg"
+  },
+  {
+    id: "prototype",
+    ko: "프로토타입",
+    en: "Prototype",
+    category: "UI/UX 기본",
+    tags: ["피그마", "클릭", "인터랙션", "사용흐름"],
+    summary: "화면 간 이동과 주요 인터랙션을 실제 서비스처럼 확인할 수 있게 연결한 시안입니다.",
+    description: "프로토타입은 정적인 화면을 연결하여 사용자가 어떤 순서로 이동하고 어떤 반응을 보게 되는지 검증하는 산출물입니다. 개발 전에 흐름, 조건, 인터랙션 오류를 찾는 데 유용합니다.",
+    example: "로그인 버튼을 누르면 홈 화면으로 이동하고, 오류가 있으면 에러 메시지가 노출되도록 Figma에서 연결합니다.",
+    designerNote: "프로토타입은 완성된 개발물이 아니므로 데이터 처리, 예외 케이스, 실제 속도는 별도로 확인해야 합니다.",
+    image: "./assets/images/prototype.svg"
+  },
+  {
+    id: "ia",
+    ko: "정보 구조",
+    en: "IA, Information Architecture",
+    category: "UI/UX 기본",
+    tags: ["메뉴", "사이트맵", "구조", "탐색"],
+    summary: "서비스의 메뉴, 페이지, 콘텐츠를 사용자가 이해하기 쉬운 구조로 정리한 체계입니다.",
+    description: "IA는 사용자가 원하는 정보를 찾고 목표 행동까지 이동할 수 있도록 콘텐츠와 화면을 계층적으로 구성하는 작업입니다. 메뉴 구조, 사이트맵, 화면 분류 등에 사용됩니다.",
+    example: "마이페이지 안에 프로필, 결제 수단, 알림 설정, 고객센터를 어떤 순서와 깊이로 배치할지 정합니다.",
+    designerNote: "IA를 정리할 때는 회사 내부 조직 구조보다 사용자의 탐색 목적을 우선해야 합니다.",
+    image: "./assets/images/ia.svg"
+  },
+  {
+    id: "user-flow",
+    ko: "사용자 흐름",
+    en: "User Flow",
+    category: "UI/UX 기본",
+    tags: ["동선", "플로우", "시나리오", "전환"],
+    summary: "사용자가 특정 목적을 달성하기 위해 거치는 화면과 행동의 순서입니다.",
+    description: "User Flow는 사용자가 진입점부터 목표 완료까지 어떤 선택과 화면 이동을 거치는지 시각화한 흐름입니다. 누락된 상태, 불필요한 단계, 이탈 지점을 발견하는 데 사용합니다.",
+    example: "상품 상세 진입 → 옵션 선택 → 장바구니 담기 → 주문서 작성 → 결제 완료 흐름을 정리합니다.",
+    designerNote: "성공 흐름만이 아니라 취소, 실패, 뒤로가기, 권한 없음 같은 예외 흐름도 함께 고려해야 합니다.",
+    image: "./assets/images/user-flow.svg"
+  },
+  {
+    id: "component",
+    ko: "컴포넌트",
+    en: "Component",
+    category: "디자인 실무",
+    tags: ["피그마", "재사용", "버튼", "UI"],
+    summary: "반복해서 사용하는 UI 요소를 하나의 재사용 단위로 만든 것입니다.",
+    description: "컴포넌트는 버튼, 입력창, 카드, 탭처럼 여러 화면에서 반복되는 UI를 일관되게 관리하기 위한 단위입니다. 수정이 필요할 때 원본 컴포넌트를 바꾸면 연결된 화면에도 반영됩니다.",
+    example: "Primary Button 컴포넌트를 만들고 로그인, 저장, 신청 완료 화면에서 재사용합니다.",
+    designerNote: "새 UI를 만들기 전에 기존 디자인 시스템에 동일하거나 유사한 컴포넌트가 있는지 먼저 확인해야 합니다.",
+    image: "./assets/images/component.svg"
+  },
+  {
+    id: "variant",
+    ko: "배리언트",
+    en: "Variant",
+    category: "디자인 실무",
+    tags: ["상태", "피그마", "컴포넌트", "버튼"],
+    summary: "하나의 컴포넌트에서 상태나 유형에 따라 달라지는 형태를 묶어 관리하는 방식입니다.",
+    description: "Variant는 같은 버튼이라도 Default, Hover, Disabled, Loading처럼 상태별 차이를 하나의 컴포넌트 세트로 관리하게 해줍니다. 디자인 시스템의 일관성과 유지보수성을 높입니다.",
+    example: "Button 컴포넌트 안에 Primary/Secondary, Default/Disabled 상태를 함께 정의합니다.",
+    designerNote: "배리언트를 만들 때는 속성명을 명확히 정해야 개발자와 상태값을 맞추기 쉽습니다.",
+    image: "./assets/images/variant.svg"
+  },
+  {
+    id: "design-system",
+    ko: "디자인 시스템",
+    en: "Design System",
+    category: "디자인 실무",
+    tags: ["가이드", "토큰", "컴포넌트", "일관성"],
+    summary: "제품 전반의 색상, 타이포그래피, 컴포넌트, 사용 규칙을 모은 기준 체계입니다.",
+    description: "디자인 시스템은 제품을 일관되게 만들기 위한 시각 규칙과 컴포넌트, 사용 가이드의 집합입니다. 디자이너와 개발자가 같은 기준으로 화면을 만들 수 있게 돕습니다.",
+    example: "Primary Color, Heading Font, Button Component, Modal 사용 규칙을 한 곳에서 관리합니다.",
+    designerNote: "디자인 시스템은 단순 UI 모음이 아니라 언제 어떤 컴포넌트를 써야 하는지까지 포함해야 실무에서 유용합니다.",
+    image: "./assets/images/design-system.svg"
+  },
+  {
+    id: "handoff",
+    ko: "핸드오프",
+    en: "Handoff",
+    category: "디자인 실무",
+    tags: ["개발전달", "스펙", "피그마", "협업"],
+    summary: "디자인을 개발자가 구현할 수 있도록 화면, 상태, 규칙, 에셋 정보를 전달하는 과정입니다.",
+    description: "핸드오프는 완성된 화면을 개발자에게 넘기는 단계를 뜻합니다. 화면 구조뿐 아니라 반응형 규칙, 컴포넌트 상태, 예외 케이스, 이미지 에셋, 문구 등을 함께 전달해야 합니다.",
+    example: "Figma 화면 옆에 로딩 상태, 에러 상태, 버튼 disabled 조건, 말줄임 기준을 적어둡니다.",
+    designerNote: "개발자가 추측해야 하는 부분이 줄어들수록 커뮤니케이션 비용과 재작업이 줄어듭니다.",
+    image: "./assets/images/handoff.svg"
+  },
+  {
+    id: "api",
+    ko: "API",
+    en: "Application Programming Interface",
+    category: "개발 협업",
+    tags: ["서버", "데이터", "통신", "백엔드"],
+    summary: "화면과 서버가 필요한 데이터를 주고받기 위해 사용하는 연결 규칙입니다.",
+    description: "API는 프론트엔드 화면이 서버에 데이터를 요청하거나 서버가 결과를 응답할 때 사용하는 약속입니다. 디자이너는 API 실패, 지연, 빈 데이터 같은 상태를 화면에 반영해야 합니다.",
+    example: "사용자 목록을 불러오는 API가 실패하면 에러 안내와 다시 시도 버튼을 보여줍니다.",
+    designerNote: "데이터가 항상 정상적으로 온다고 가정하지 말고 로딩, 빈 상태, 오류 상태를 함께 설계해야 합니다.",
+    image: "./assets/images/api.svg"
+  },
+  {
+    id: "frontend",
+    ko: "프론트엔드",
+    en: "Front-end",
+    category: "개발 협업",
+    tags: ["화면개발", "HTML", "CSS", "JavaScript"],
+    summary: "사용자가 직접 보는 화면과 화면의 동작을 구현하는 개발 영역입니다.",
+    description: "프론트엔드는 버튼, 입력창, 리스트, 애니메이션, 화면 전환처럼 사용자에게 보이는 인터페이스를 개발합니다. 디자이너와 가장 자주 협업하는 개발 영역입니다.",
+    example: "Figma로 만든 로그인 화면을 HTML, CSS, JavaScript 또는 앱 코드로 구현합니다.",
+    designerNote: "구현 난이도가 높은 인터랙션이나 반응형 레이아웃은 초기에 프론트엔드 개발자와 확인하는 것이 좋습니다.",
+    image: "./assets/images/frontend.svg"
+  },
+  {
+    id: "backend",
+    ko: "백엔드",
+    en: "Back-end",
+    category: "개발 협업",
+    tags: ["서버", "데이터베이스", "인증", "API"],
+    summary: "데이터 저장, 인증, 권한, 비즈니스 로직, 서버 API를 담당하는 개발 영역입니다.",
+    description: "백엔드는 사용자가 화면에서 입력한 정보를 저장하고, 필요한 데이터를 계산하거나 조회하여 프론트엔드에 전달합니다. 로그인, 결제, 권한, 알림 같은 기능과 밀접합니다.",
+    example: "회원가입 정보를 저장하고, 로그인 성공 여부를 판단해 화면에 결과를 전달합니다.",
+    designerNote: "데이터 구조나 정책에 따라 UI가 달라질 수 있으므로 필수값, 권한, 예외 조건을 확인해야 합니다.",
+    image: "./assets/images/backend.svg"
+  },
+  {
+    id: "responsive",
+    ko: "반응형",
+    en: "Responsive Design",
+    category: "개발 협업",
+    tags: ["웹", "모바일", "태블릿", "브레이크포인트"],
+    summary: "화면 크기에 따라 레이아웃과 요소 배치가 자연스럽게 바뀌도록 설계하는 방식입니다.",
+    description: "반응형 디자인은 모바일, 태블릿, 데스크톱처럼 다른 화면 너비에서도 사용성이 유지되도록 UI를 조정하는 설계 방식입니다. 열 개수, 여백, 글자 줄바꿈, 이미지 비율을 함께 고려합니다.",
+    example: "PC에서는 카드가 3열, 태블릿에서는 2열, 모바일에서는 1열로 노출되도록 설계합니다.",
+    designerNote: "기준 해상도만 만들지 말고 화면이 좁아질 때 어떤 요소가 줄어들거나 접히는지 정의해야 합니다.",
+    image: "./assets/images/responsive.svg"
+  },
+  {
+    id: "empty-state",
+    ko: "빈 상태",
+    en: "Empty State",
+    category: "화면 상태",
+    tags: ["데이터없음", "안내", "상태", "UX라이팅"],
+    summary: "목록이나 콘텐츠가 아직 없을 때 사용자에게 보여주는 안내 화면입니다.",
+    description: "빈 상태는 검색 결과 없음, 등록된 항목 없음, 첫 사용 상태처럼 보여줄 데이터가 없을 때 제공하는 화면입니다. 단순히 비워두지 않고 이유와 다음 행동을 안내해야 합니다.",
+    example: "검색 결과가 없을 때 ‘검색 결과가 없습니다. 다른 키워드로 검색해 보세요.’와 추천 카테고리를 함께 보여줍니다.",
+    designerNote: "빈 상태는 사용자가 막히는 지점이므로 다음 행동을 제안하는 버튼이나 안내 문구가 필요합니다.",
+    image: "./assets/images/empty-state.svg"
+  },
+  {
+    id: "error-state",
+    ko: "오류 상태",
+    en: "Error State",
+    category: "화면 상태",
+    tags: ["에러", "입력오류", "검증", "실패"],
+    summary: "사용자의 입력이나 시스템 처리에 문제가 있을 때 보여주는 상태입니다.",
+    description: "오류 상태는 잘못된 입력, 네트워크 실패, 권한 없음, 서버 오류처럼 정상 처리가 불가능한 상황을 사용자에게 알리는 화면 또는 메시지입니다. 오류 원인과 해결 방법을 명확히 전달해야 합니다.",
+    example: "이메일 형식이 틀리면 입력창 아래에 ‘이메일 형식이 올바르지 않습니다.’라고 표시합니다.",
+    designerNote: "색상만으로 오류를 표현하지 말고 문구, 아이콘, 포커스 위치를 함께 고려해야 합니다.",
+    image: "./assets/images/error-state.svg"
+  },
+  {
+    id: "qa",
+    ko: "품질 검증",
+    en: "QA, Quality Assurance",
+    category: "프로젝트 용어",
+    tags: ["테스트", "버그", "검수", "릴리즈"],
+    summary: "서비스가 의도한 대로 동작하는지 확인하고 문제를 찾는 검증 과정입니다.",
+    description: "QA는 디자인, 개발, 정책이 실제 구현물에서 제대로 동작하는지 검증하는 과정입니다. 디자이너는 디자인과 구현물이 다른 부분, 문구 오류, 상태 누락을 확인할 수 있습니다.",
+    example: "디자인 시안과 실제 개발 화면의 버튼 위치, 폰트 크기, 오류 메시지 노출 조건을 비교합니다.",
+    designerNote: "QA 단계에서는 ‘다름’을 말할 때 시안 링크, 화면 위치, 재현 절차를 함께 전달하면 수정이 빨라집니다.",
+    image: "./assets/images/qa.svg"
+  },
+  {
+    id: "deploy",
+    ko: "배포",
+    en: "Deploy",
+    category: "프로젝트 용어",
+    tags: ["릴리즈", "운영", "업데이트", "개발"],
+    summary: "개발된 기능이나 수정 사항을 실제 사용자가 볼 수 있는 환경에 반영하는 작업입니다.",
+    description: "배포는 개발이 완료된 결과물을 운영 환경에 적용하는 과정입니다. 배포 전에는 디자인 QA, 문구 확인, 예외 상태 검토가 필요할 수 있습니다.",
+    example: "회원가입 화면 개편이 완료되어 앱스토어 업데이트나 웹 운영 서버에 반영됩니다.",
+    designerNote: "배포 직전 급한 수정은 일정에 영향을 줄 수 있으므로 디자인 검토는 가능한 한 사전에 끝내는 것이 좋습니다.",
+    image: "./assets/images/deploy.svg"
+  }
+];
+
+window.GLOSSARY_CATEGORIES = [
+  { id: "all", label: "전체", icon: "◎", featured: true },
+  { id: "UI/UX 기본", label: "UI/UX 기본", icon: "UX", featured: true },
+  { id: "디자인 실무", label: "디자인 실무", icon: "Aa", featured: true },
+  { id: "개발 협업", label: "개발 협업", icon: "</>", featured: true },
+  { id: "화면 상태", label: "화면 상태", icon: "□", featured: true },
+  { id: "프로젝트 용어", label: "프로젝트 용어", icon: "✓", featured: true }
+];

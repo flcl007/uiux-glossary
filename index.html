@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UI/UX 사전</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="topbar" aria-label="상단 메뉴">
+    <div class="topbar__inner">
+      <a class="brand" href="#/" aria-label="UI/UX 사전 홈으로 이동">
+        <span class="brand__mark">D</span>
+        <span class="brand__text">사전</span>
+      </a>
+
+      <nav class="nav" aria-label="주요 메뉴">
+        <a href="#/" data-nav-home>백과사전</a>
+        <span class="nav__divider"></span>
+        <a href="#/saved">단어장</a>
+        <span class="nav__divider"></span>
+        <a href="#/notes">작은창</a>
+        <span class="nav__divider"></span>
+        <a href="#/checklist">맞춤법검사기</a>
+      </nav>
+
+      <div class="topbar__actions">
+        <button class="login-btn" type="button" aria-label="로그인 기능은 추후 제공됩니다">로그인</button>
+        <button class="grid-btn" type="button" aria-label="전체 서비스 메뉴">
+          <span></span><span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="app" class="app" tabindex="-1"></main>
+
+  <button id="scrollTopBtn" class="scroll-top" type="button" aria-label="상단으로 이동">↑</button>
+
+  <template id="homeTemplate">
+    <section class="home-hero">
+      <h1>UI/UX 사전</h1>
+      <form class="search-box" data-search-form autocomplete="off">
+        <input
+          data-search-input
+          type="search"
+          placeholder="검색어를 입력하세요."
+          aria-label="검색어 입력"
+        />
+        <button class="clear-btn" data-clear-search type="button" aria-label="검색어 초기화">×</button>
+        <button class="search-btn" data-search-submit type="submit" aria-label="검색" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 18a7.5 7.5 0 1 1 5.94-2.92l4.24 4.24-1.42 1.42-4.24-4.24A7.47 7.47 0 0 1 10.5 18Zm0-2a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/></svg>
+        </button>
+
+        <div class="suggest-panel" data-suggest-panel>
+          <div class="suggest-section" data-recent-section>
+            <div class="suggest-head">
+              <strong>최근 검색어</strong>
+              <button type="button" data-clear-history>전체 삭제</button>
+            </div>
+            <ul class="recent-list" data-recent-list></ul>
+          </div>
+
+          <div class="suggest-section" data-related-section>
+            <div class="suggest-head">
+              <strong>관련 검색어</strong>
+              <button type="button" data-close-suggest>목록 닫기</button>
+            </div>
+            <ul class="related-list" data-related-list></ul>
+          </div>
+
+          <p class="suggest-empty" data-suggest-empty>
+            일치하는 검색어가 없습니다. 띄어쓰기나 영문 약어로 다시 검색해 보세요.
+          </p>
+        </div>
+      </form>
+
+      <div class="category-strip" data-category-strip aria-label="추천 카테고리"></div>
+    </section>
+  </template>
+
+  <template id="resultsTemplate">
+    <section class="results-page">
+      <div class="results-search-row">
+        <form class="compact-search" data-search-form autocomplete="off">
+          <input data-search-input type="search" aria-label="검색어 입력" />
+          <button class="clear-btn compact" data-clear-search type="button" aria-label="검색어 초기화">×</button>
+          <button data-search-submit type="submit" aria-label="검색">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 18a7.5 7.5 0 1 1 5.94-2.92l4.24 4.24-1.42 1.42-4.24-4.24A7.47 7.47 0 0 1 10.5 18Zm0-2a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/></svg>
+          </button>
+        </form>
+        <div class="result-meta" data-result-meta></div>
+      </div>
+      <div class="results-wrap" data-results-wrap></div>
+    </section>
+  </template>
+
+  <template id="detailTemplate">
+    <section class="detail-page">
+      <button class="back-btn" type="button" data-back>‹ 검색 결과로</button>
+      <article class="term-detail" data-term-detail></article>
+      <aside class="related-terms" data-detail-related></aside>
+    </section>
+  </template>
+
+  <div class="modal-backdrop" data-category-modal hidden>
+    <section class="category-modal" role="dialog" aria-modal="true" aria-labelledby="categoryModalTitle">
+      <div class="modal-head">
+        <h2 id="categoryModalTitle">전체 카테고리</h2>
+        <button type="button" data-close-category-modal aria-label="닫기">×</button>
+      </div>
+      <div class="modal-category-grid" data-modal-category-grid></div>
+    </section>
+  </div>
+
+  <script src="./data.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
