@@ -1036,3 +1036,173 @@ body.modal-open {
     font-weight: 500;
   }
 }
+
+/* v5 spacing and modal refinements */
+:root {
+  --placeholder: #cbd1db;
+  --muted-soft: #aeb6c3;
+}
+
+/* 검색창 X 버튼: 원형 버튼 전체를 검색창 중앙으로 하향 보정 */
+.clear-btn {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* 최근 검색어 / 관련 검색어 드롭다운 상단 여백 통일 */
+.suggest-panel {
+  padding: 10px 16px 12px;
+}
+.suggest-section {
+  margin: 0;
+}
+.suggest-section + .suggest-section {
+  margin-top: 0;
+}
+.suggest-head {
+  min-height: 22px;
+  height: 22px;
+  margin: 0 0 4px;
+  padding: 0 2px;
+  line-height: 22px;
+}
+.suggest-head strong,
+.suggest-head button {
+  line-height: 22px;
+}
+.recent-list,
+.related-list {
+  margin: 0;
+  padding: 0;
+}
+.recent-list li,
+.related-list li {
+  min-height: 40px;
+  padding: 0 2px;
+}
+.suggest-query {
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+.suggest-empty {
+  color: var(--muted-soft);
+  font-weight: 400;
+}
+.search-box input::placeholder,
+.compact-search input::placeholder {
+  color: var(--placeholder);
+  font-weight: 400;
+}
+
+/* 전체 카테고리 팝업: 웹 카테고리 간 구분감 확보 */
+.category-modal {
+  padding: 28px 32px 32px;
+}
+.modal-head {
+  margin-bottom: 20px;
+}
+.modal-head button {
+  width: 34px;
+  height: 34px;
+  font-size: 25px;
+  line-height: 1;
+}
+.modal-category-grid {
+  gap: 14px 16px;
+}
+.modal-category-grid button {
+  min-height: 54px;
+  padding: 11px 12px;
+  border: 1px solid #edf0f5;
+  border-radius: 14px;
+  background: #fff;
+  grid-template-columns: 28px 1fr auto;
+  gap: 10px;
+}
+.modal-category-grid button:hover {
+  background: #f8faff;
+  border-color: #d9e7ff;
+}
+.modal-category-grid span {
+  width: 22px;
+  height: 22px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.modal-category-grid strong {
+  font-weight: 500;
+}
+.modal-category-grid em {
+  font-weight: 400;
+}
+
+@media (max-width: 560px) {
+  /* 모바일 전체 카테고리 바텀시트: 상단 여백/구분선/첫 항목 간격 정리 */
+  .category-modal {
+    max-height: 76vh;
+    padding: 12px 18px calc(22px + env(safe-area-inset-bottom));
+    border-radius: 22px 22px 0 0;
+  }
+  .modal-head {
+    position: sticky;
+    top: 0;
+    margin: -12px -18px 14px;
+    padding: 12px 18px 12px;
+    min-height: 48px;
+    border-bottom: 1px solid #edf0f4;
+    background: #fff;
+  }
+  .modal-head h2 {
+    font-size: 20px;
+    font-weight: 650;
+    line-height: 24px;
+  }
+  .modal-head button {
+    width: 32px;
+    height: 32px;
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 1;
+  }
+  .modal-category-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px 8px;
+    padding-top: 2px;
+  }
+  .modal-category-grid button {
+    width: auto;
+    min-height: 68px;
+    padding: 8px 4px;
+    border: 1px solid #edf0f5;
+    border-radius: 14px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+  }
+  .modal-category-grid button:hover {
+    background: #f8faff;
+  }
+  .modal-category-grid span {
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    background: #eef5ff;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .modal-category-grid strong {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.25;
+    color: #2f3540;
+    white-space: nowrap;
+  }
+  .modal-category-grid em {
+    display: none;
+  }
+}
