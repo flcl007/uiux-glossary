@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UI/UX 사전</title>
+  <title>인절미</title>
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
   <header class="topbar" aria-label="상단 메뉴">
     <div class="topbar__inner">
-      <a class="brand" href="#/" aria-label="UI/UX 사전 홈으로 이동">
+      <a class="brand" href="#/" aria-label="인절미 홈으로 이동">
         <span class="brand__mark">D</span>
-        <span class="brand__text">사전</span>
+        <span class="brand__text">인절미</span>
       </a>
 
       <nav class="nav" aria-label="주요 메뉴">
@@ -39,11 +39,11 @@
 
   <template id="homeTemplate">
     <section class="home-hero">
-      <h1>UI/UX 사전</h1>
+      <h1>인절미</h1>
       <form class="search-box" data-search-form autocomplete="off">
         <input
           data-search-input
-          type="search"
+          type="text"
           placeholder="검색어를 입력하세요."
           aria-label="검색어 입력"
         />
@@ -83,7 +83,7 @@
     <section class="results-page">
       <div class="results-search-row">
         <form class="compact-search" data-search-form autocomplete="off">
-          <input data-search-input type="search" aria-label="검색어 입력" />
+          <input data-search-input type="text" aria-label="검색어 입력" />
           <button class="clear-btn compact" data-clear-search type="button" aria-label="검색어 초기화">×</button>
           <button data-search-submit type="submit" aria-label="검색">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 18a7.5 7.5 0 1 1 5.94-2.92l4.24 4.24-1.42 1.42-4.24-4.24A7.47 7.47 0 0 1 10.5 18Zm0-2a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/></svg>
