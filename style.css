@@ -1786,3 +1786,63 @@ body {
     display: none !important;
   }
 }
+
+
+/* v8 requested refinements */
+/* 팝업 안의 '전체' 아이콘이 검정으로 보이던 문제 수정 */
+.modal-category-grid button[data-category="all"] span {
+  color: #4f86f7 !important;
+}
+
+/* 검색창 x 원형 버튼: 원형 버튼 전체를 아주 살짝 위로 보정 */
+.clear-btn {
+  top: 49% !important;
+  transform: translateY(-50%) !important;
+}
+
+@media (max-width: 560px) {
+  /* 앱: 전체 텍스트 크기 약간 축소 */
+  .brand-name { font-size: 22px !important; }
+  .hero-title { font-size: 38px !important; }
+  .search-input { font-size: 21px !important; }
+  .search-input::placeholder { font-size: 21px !important; }
+  .category-item__label { font-size: 14px !important; font-weight: 500 !important; }
+  .suggest-head strong,
+  .suggest-head button { font-size: 12px !important; }
+  .suggest-query { font-size: 14px !important; }
+
+  /* 앱: 아이콘 크기 약간 축소 */
+  .search-submit { width: 42px !important; height: 42px !important; }
+  .search-submit svg { width: 25px !important; height: 25px !important; }
+  .category-item__icon { width: 58px !important; height: 58px !important; font-size: 25px !important; }
+
+  /* 앱: 카테고리 바텀시트 텍스트/아이콘을 한 단계 축소 */
+  .modal-head h2 {
+    font-size: 26px !important;
+    font-weight: 700 !important;
+  }
+  .modal-head button {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 34px !important;
+    padding-bottom: 3px !important;
+  }
+  .modal-category-grid button {
+    min-height: 88px !important;
+    grid-template-columns: 50px 1fr !important;
+    gap: 16px !important;
+  }
+  .modal-category-grid span {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 29px !important;
+    color: #4f86f7 !important;
+  }
+  .modal-category-grid button[data-category="all"] span {
+    color: #4f86f7 !important;
+  }
+  .modal-category-grid strong {
+    font-size: 23px !important;
+    font-weight: 500 !important;
+  }
+}
