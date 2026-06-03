@@ -229,7 +229,6 @@ function updateSuggestPanel(form, query) {
 
   recentList.innerHTML = recent.map(item => `
     <li>
-      <span class="suggest-badge suggest-badge--recent">검색 기록</span>
       <button class="suggest-query" type="button" data-recent-query="${escapeHTML(item)}">${escapeHTML(item)}</button>
       <button class="delete-recent" type="button" data-delete-recent="${escapeHTML(item)}" aria-label="${escapeHTML(item)} 삭제">×</button>
     </li>
@@ -237,9 +236,7 @@ function updateSuggestPanel(form, query) {
 
   relatedList.innerHTML = related.map(item => `
     <li>
-      <span class="suggest-badge suggest-badge--related">관련</span>
       <button class="suggest-query" type="button" data-related-query="${escapeHTML(item)}">${escapeHTML(item)}</button>
-      <button class="delete-related" type="button" data-delete-related="${escapeHTML(item)}" aria-label="${escapeHTML(item)} 제거">×</button>
     </li>
   `).join('');
 
@@ -265,14 +262,7 @@ function updateSuggestPanel(form, query) {
   };
 
   relatedList.onclick = event => {
-    const del = event.target.closest('[data-delete-related]');
     const item = event.target.closest('[data-related-query]');
-    if (del) {
-      event.stopPropagation();
-      dismissedRelatedSuggestions.add(del.dataset.deleteRelated);
-      updateSuggestPanel(form, query);
-      return;
-    }
     if (item) goResults({ query: item.dataset.relatedQuery });
   };
 }

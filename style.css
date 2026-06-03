@@ -15,7 +15,10 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scrollbar-gutter: stable; }
+@supports not (scrollbar-gutter: stable) {
+  html { overflow-y: scroll; }
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
@@ -198,11 +201,7 @@ input[type="search"]::-webkit-search-decoration {
   z-index: 20;
 }
 .suggest-panel.is-open { display: block; }
-.suggest-section + .suggest-section {
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid #f0f2f6;
-}
+.suggest-section + .suggest-section { margin-top: 12px; }
 .suggest-head {
   display: flex;
   justify-content: space-between;
@@ -216,26 +215,6 @@ input[type="search"]::-webkit-search-decoration {
   gap: 7px;
   font-size: 13px;
   color: #6d7480;
-}
-.suggest-section[data-recent-section] .suggest-head strong::before,
-.suggest-section[data-related-section] .suggest-head strong::before {
-  display: inline-grid;
-  place-items: center;
-  height: 22px;
-  padding: 0 8px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 900;
-}
-.suggest-section[data-recent-section] .suggest-head strong::before {
-  content: "최근";
-  color: #4f5968;
-  background: #eef1f5;
-}
-.suggest-section[data-related-section] .suggest-head strong::before {
-  content: "추천";
-  color: #1d63cf;
-  background: #eaf2ff;
 }
 .suggest-head button {
   border: 0;
@@ -251,25 +230,17 @@ input[type="search"]::-webkit-search-decoration {
 }
 .recent-list li, .related-list li {
   display: grid;
-  grid-template-columns: auto 1fr 36px;
+  grid-template-columns: 1fr 36px;
   align-items: center;
   gap: 8px;
   border-top: 1px solid #f4f5f8;
   min-height: 48px;
 }
 .recent-list li:first-child, .related-list li:first-child { border-top: 0; }
-.suggest-badge {
-  display: inline-flex;
-  align-items: center;
-  height: 24px;
-  padding: 0 8px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 900;
-  white-space: nowrap;
+
+.related-list li {
+  grid-template-columns: 1fr;
 }
-.suggest-badge--recent { background: #f1f3f6; color: #6c7480; }
-.suggest-badge--related { background: #eaf2ff; color: #2f7df6; }
 .suggest-query {
   border: 0;
   background: transparent;
@@ -282,7 +253,7 @@ input[type="search"]::-webkit-search-decoration {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.delete-recent, .delete-related {
+.delete-recent {
   width: 32px;
   height: 32px;
   border: 0;
@@ -292,7 +263,7 @@ input[type="search"]::-webkit-search-decoration {
   text-align: center !important;
   font-size: 18px;
 }
-.delete-recent:hover, .delete-related:hover { background: #f0f2f6; color: #5f6672 !important; }
+.delete-recent:hover { background: #f0f2f6; color: #5f6672 !important; }
 .suggest-empty { margin: 0; padding: 14px; color: var(--muted); font-weight: 700; }
 
 .category-strip {
