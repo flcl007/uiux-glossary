@@ -15,7 +15,7 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scrollbar-gutter: stable; }
+html { scroll-behavior: smooth; overflow-y: scroll; scrollbar-gutter: auto; }
 @supports not (scrollbar-gutter: stable) {
   html { overflow-y: scroll; }
 }
@@ -1847,205 +1847,48 @@ body {
   }
 }
 
-/* v9 final requested refinements */
-/* 웹: 스크롤바 영역은 항상 활성화하되, 레이아웃 폭을 깎지 않도록 처리 */
+
+/* v10: requested-only repair patch */
+/* 웹: 스크롤바를 항상 노출하되, 레이아웃 폭을 임의로 깎지 않음 */
 html {
   overflow-y: scroll !important;
   scrollbar-gutter: auto !important;
 }
 body {
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow-x: hidden !important;
-}
-.topbar,
-.app {
-  width: 100% !important;
-  max-width: 100% !important;
+  width: auto !important;
+  max-width: none !important;
 }
 
-/* 공통: 검색창 x 원형 버튼 위치는 원형 컨테이너 기준으로 미세 조정 */
-.clear-btn {
-  top: 49.5% !important;
-  transform: translateY(-50%) !important;
-}
-
-/* 공통: 메인 카테고리 마지막 버튼은 '전체'로 보이므로 기본 카테고리와 같은 톤 유지 */
-.category-item[data-open-category-modal] .category-item__icon {
-  color: #111318 !important;
-}
-
-/* 공통: 팝업 내 전체 아이콘은 파란색 유지 */
-.modal-category-grid button[data-category="all"] span {
-  color: #4f86f7 !important;
-}
-
+/* 모바일: 검색창 포커스 시 iOS 자동 확대 방지 최소값 */
 @media (max-width: 560px) {
-  /* 모바일: 전체 스케일 다운. 웹에는 영향 없음 */
-  .topbar {
-    height: 72px !important;
+  .search-box input,
+  .compact-search input {
+    font-size: 16px !important;
   }
-  .topbar__inner {
-    padding: 0 22px !important;
-    grid-template-columns: 1fr auto !important;
-    gap: 12px !important;
+  .search-box input::placeholder,
+  .compact-search input::placeholder {
+    font-size: 16px !important;
   }
-  .brand {
-    font-size: 21px !important;
-    font-weight: 800 !important;
-    gap: 8px !important;
-  }
-  .brand__mark {
-    width: 28px !important;
-    height: 28px !important;
-    border-radius: 9px !important;
-    font-size: 17px !important;
-  }
-  .nav { display: none !important; }
-  .grid-btn { width: 28px !important; height: 28px !important; }
+}
 
-  .home-hero {
-    min-height: calc(100vh - 72px) !important;
-    padding: 68px 28px 48px !important;
+/* 모바일 터치 후 카테고리 hover/focus 상태가 메인 복귀 후 남지 않도록 처리 */
+@media (hover: none) and (pointer: coarse) {
+  .category-item:hover,
+  .category-item:focus,
+  .category-item:focus-visible {
+    transform: none !important;
+    outline: none !important;
   }
-  .home-hero h1 {
-    font-size: 34px !important;
-    line-height: 1.15 !important;
-    margin-bottom: 34px !important;
-    font-weight: 800 !important;
-    letter-spacing: -0.055em !important;
+  .category-item:hover .category-item__icon,
+  .category-item:focus .category-item__icon,
+  .category-item:focus-visible .category-item__icon {
+    color: var(--primary) !important;
+    background: #fff !important;
   }
-  .search-box {
-    height: 50px !important;
-    border-radius: 999px !important;
-    width: 100% !important;
-  }
-  .search-box input {
-    font-size: 15px !important;
-    font-weight: 500 !important;
-    padding: 0 82px 0 22px !important;
-  }
-  .search-box input::placeholder {
-    font-size: 15px !important;
-    font-weight: 500 !important;
-    color: #b9bfca !important;
-  }
-  .search-btn,
-  .compact-search button[type="submit"] {
-    right: 16px !important;
-    width: 30px !important;
-    height: 30px !important;
-  }
-  .search-btn svg,
-  .compact-search svg {
-    width: 24px !important;
-    height: 24px !important;
-  }
-  .clear-btn {
-    right: 50px !important;
-    width: 24px !important;
-    height: 24px !important;
-    font-size: 17px !important;
-    top: 49.5% !important;
-  }
-
-  .category-strip {
-    gap: 16px 22px !important;
-    margin-top: 48px !important;
-    max-width: 360px !important;
-    justify-content: center !important;
-  }
-  .category-item {
-    width: 58px !important;
-    gap: 8px !important;
-  }
-  .category-item__icon {
-    width: 48px !important;
-    height: 48px !important;
-    border-radius: 18px !important;
-    font-size: 22px !important;
-    font-weight: 500 !important;
-  }
-  .category-item__label {
-    font-size: 12px !important;
-    line-height: 1.15 !important;
-    font-weight: 500 !important;
-    letter-spacing: -0.03em !important;
-  }
-
-  .suggest-panel {
-    top: 58px !important;
-    padding: 12px 14px !important;
-    border-radius: 18px !important;
-  }
-  .suggest-head {
-    height: 20px !important;
-    min-height: 20px !important;
-    margin-bottom: 4px !important;
-    line-height: 20px !important;
-  }
-  .suggest-head strong,
-  .suggest-head button {
-    font-size: 11px !important;
-    font-weight: 500 !important;
-    line-height: 20px !important;
-  }
-  .recent-list li,
-  .related-list li {
-    min-height: 34px !important;
-  }
-  .suggest-query,
-  .recent-list button,
-  .related-list button {
-    font-size: 13px !important;
-    font-weight: 500 !important;
-  }
-
-  /* 모바일: 전체 카테고리 바텀시트 축소 및 정렬 */
-  .category-modal {
-    max-height: 72vh !important;
-    border-radius: 24px 24px 0 0 !important;
-    padding: 0 30px calc(22px + env(safe-area-inset-bottom)) !important;
-  }
-  .modal-head {
-    min-height: 70px !important;
-    margin: 0 -30px !important;
-    padding: 20px 30px 16px !important;
-    border-bottom: 1px solid #e9ebef !important;
-  }
-  .modal-head h2 {
-    font-size: 21px !important;
-    line-height: 1.2 !important;
-    font-weight: 700 !important;
-    letter-spacing: -0.045em !important;
-  }
-  .modal-head button {
-    width: 32px !important;
-    height: 32px !important;
-    font-size: 28px !important;
-    font-weight: 300 !important;
-    padding: 0 0 2px !important;
-  }
-  .modal-category-grid {
-    display: block !important;
-    padding-top: 4px !important;
-  }
-  .modal-category-grid button {
-    min-height: 58px !important;
-    grid-template-columns: 36px 1fr !important;
-    gap: 12px !important;
-    border-bottom: 1px solid #eef0f3 !important;
-  }
-  .modal-category-grid span {
-    width: 32px !important;
-    height: 32px !important;
-    font-size: 23px !important;
-    color: #4f86f7 !important;
-  }
-  .modal-category-grid strong {
-    font-size: 17px !important;
-    line-height: 1.2 !important;
-    font-weight: 500 !important;
-    letter-spacing: -0.04em !important;
+  .category-item[data-open-category-modal]:hover .category-item__icon,
+  .category-item[data-open-category-modal]:focus .category-item__icon,
+  .category-item[data-open-category-modal]:focus-visible .category-item__icon {
+    color: #111318 !important;
+    background: #fff !important;
   }
 }
