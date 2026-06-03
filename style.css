@@ -1206,3 +1206,413 @@ body.modal-open {
     display: none;
   }
 }
+
+/* v6 reference alignment: Daum dictionary-like initial page */
+:root {
+  --bg: #f4f5f8;
+  --surface: #fff;
+  --text: #111318;
+  --muted: #6f7682;
+  --placeholder: #b7bdc8;
+  --line: #dfe2e8;
+  --primary: #2f7df6;
+  --shadow: 0 14px 34px rgba(24, 34, 54, .055);
+  --header-height: 106px;
+}
+
+body {
+  background: var(--bg);
+  font-weight: 400;
+}
+
+.topbar {
+  height: var(--header-height);
+  background: #fff;
+  border-bottom: 1px solid #dfe2e8;
+}
+.topbar__inner {
+  max-width: 1300px;
+  padding: 0;
+  grid-template-columns: 230px 1fr 230px;
+  gap: 24px;
+}
+.brand {
+  gap: 9px;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+}
+.brand__mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 800;
+}
+.nav {
+  gap: 21px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+.nav__divider {
+  height: 20px;
+  background: #d9dce3;
+}
+.topbar__actions { gap: 18px; }
+.login-btn { display: none !important; }
+.grid-btn {
+  width: 34px;
+  height: 34px;
+  grid-template-columns: repeat(2, 7px);
+  grid-template-rows: repeat(2, 7px);
+  gap: 6px;
+}
+.grid-btn span {
+  border-color: #8d95a3;
+  border-width: 1.5px;
+}
+
+.home-hero {
+  min-height: calc(100vh - var(--header-height));
+  padding: 118px 24px 72px;
+}
+.home-hero h1 {
+  margin: 0 0 46px;
+  font-size: 52px;
+  line-height: 1.08;
+  font-weight: 900;
+  letter-spacing: -0.065em;
+}
+.search-box {
+  width: min(808px, 100%);
+  height: 62px;
+  border-radius: 999px;
+  box-shadow: 0 14px 34px rgba(24, 34, 54, .055);
+}
+.search-box input {
+  padding: 0 112px 0 31px;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+.search-box input::placeholder,
+.compact-search input::placeholder {
+  color: #aeb4be;
+  font-weight: 400;
+}
+.search-btn,
+.compact-search button[type="submit"] {
+  right: 21px;
+  width: 40px;
+  height: 40px;
+}
+.search-btn svg,
+.compact-search svg {
+  width: 31px;
+  height: 31px;
+}
+.search-btn:disabled { color: #bfc6d2; }
+.clear-btn {
+  right: 66px;
+  top: 50%;
+  width: 31px;
+  height: 31px;
+  transform: translateY(-44%); /* 원형 버튼 전체를 살짝 아래로 */
+  padding: 0;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1;
+  background: #eef1f5;
+  color: #818996;
+}
+.clear-btn.is-visible {
+  display: grid;
+  place-items: center;
+}
+.clear-btn.compact { right: 52px; }
+
+/* 자동완성/최근 검색어: 리스트 시작 높이 통일 */
+.suggest-panel {
+  top: 74px;
+  padding: 8px 16px 10px;
+  border-radius: 22px;
+  box-shadow: 0 18px 44px rgba(18, 27, 48, .08);
+}
+.suggest-section,
+.suggest-section + .suggest-section {
+  margin: 0;
+}
+.suggest-head {
+  height: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+.suggest-head strong {
+  display: none;
+}
+.suggest-head button {
+  display: none;
+}
+.recent-list,
+.related-list {
+  margin: 0;
+  padding: 0;
+}
+.recent-list li,
+.related-list li {
+  min-height: 42px;
+  padding: 0 2px;
+  border-top: 1px solid #f1f3f6;
+}
+.recent-list li:first-child,
+.related-list li:first-child { border-top: 0; }
+.related-list li { grid-template-columns: 1fr; }
+.suggest-query {
+  padding: 10px 4px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #2e333b;
+}
+.delete-recent {
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  font-weight: 400;
+}
+.suggest-empty {
+  padding: 10px 4px;
+  color: #aab2bf;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.category-strip {
+  margin-top: 50px;
+  gap: 27px;
+}
+.category-item {
+  width: 78px;
+  gap: 10px;
+  font-weight: 500;
+  color: #161a20;
+}
+.category-item:hover { transform: translateY(-4px); }
+.category-item__icon {
+  width: 68px;
+  height: 68px;
+  border-radius: 22px;
+  border-color: #e1e5ec;
+  font-size: 30px;
+  font-weight: 600;
+  box-shadow: 0 8px 18px rgba(19, 34, 63, .035);
+}
+.category-item__label {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+/* 전체 카테고리 팝업: 웹은 레퍼런스처럼 가벼운 목록형 */
+.category-modal {
+  width: min(930px, calc(100vw - 48px));
+  max-height: min(720px, calc(100vh - 48px));
+  border-radius: 32px;
+  padding: 28px 31px 32px;
+}
+.modal-head {
+  margin-bottom: 18px;
+  align-items: center;
+}
+.modal-head h2 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+.modal-head button {
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1;
+  color: #1c2027;
+}
+.modal-category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px 34px;
+}
+.modal-category-grid button {
+  min-height: 42px;
+  padding: 6px 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+}
+.modal-category-grid button:hover { background: #f6f9ff; }
+.modal-category-grid span {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: #eef5ff;
+  color: var(--primary);
+  font-size: 15px;
+  font-weight: 500;
+}
+.modal-category-grid strong {
+  font-size: 16px;
+  font-weight: 400;
+  color: #3b414a;
+  letter-spacing: -0.03em;
+}
+.modal-category-grid em { display: none; }
+
+@media (max-width: 900px) {
+  .topbar__inner {
+    max-width: none;
+    padding: 0 24px;
+    grid-template-columns: 1fr auto;
+  }
+  .home-hero { padding-top: 94px; }
+}
+
+@media (max-width: 560px) {
+  :root { --header-height: 72px; }
+  .topbar { height: var(--header-height); }
+  .topbar__inner { padding: 0 32px; }
+  .brand {
+    font-size: 30px;
+    font-weight: 800;
+    gap: 9px;
+  }
+  .brand__text { display: inline !important; }
+  .brand__mark {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    font-size: 18px;
+  }
+  .home-hero {
+    padding: 92px 38px 64px;
+  }
+  .home-hero h1 {
+    margin-bottom: 40px;
+    font-size: 48px;
+    line-height: 1.1;
+    font-weight: 900;
+  }
+  .search-box {
+    height: 63px;
+  }
+  .search-box input {
+    padding: 0 94px 0 22px;
+    font-size: 24px;
+  }
+  .search-btn {
+    right: 18px;
+    width: 40px;
+    height: 40px;
+  }
+  .search-btn svg { width: 31px; height: 31px; }
+  .clear-btn {
+    right: 58px;
+    transform: translateY(-44%);
+  }
+  .category-strip {
+    margin-top: 70px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 28px 18px;
+    width: 100%;
+  }
+  .category-item {
+    width: auto;
+    gap: 11px;
+  }
+  .category-item__icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+    font-size: 29px;
+  }
+  .category-item__label {
+    font-size: 17px;
+    font-weight: 500;
+  }
+
+  .modal-backdrop {
+    align-items: end;
+    justify-items: stretch;
+    padding: 0;
+    overflow: hidden;
+  }
+  .category-modal {
+    width: 100%;
+    max-height: 74vh;
+    border-radius: 28px 28px 0 0;
+    padding: 14px 24px calc(26px + env(safe-area-inset-bottom));
+    overflow-y: auto;
+  }
+  .modal-head {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    min-height: 48px;
+    margin: -14px -24px 16px;
+    padding: 14px 24px 10px;
+    border-bottom: 1px solid #edf0f4;
+    background: #fff;
+  }
+  .modal-head h2 {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .modal-head button {
+    width: 34px;
+    height: 34px;
+    font-size: 28px;
+    font-weight: 300;
+  }
+  .modal-category-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px 8px;
+    padding-top: 4px;
+  }
+  .modal-category-grid button {
+    min-height: 68px;
+    padding: 8px 4px;
+    border: 1px solid #edf0f5;
+    border-radius: 14px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+  }
+  .modal-category-grid span {
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  .modal-category-grid strong {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.25;
+    white-space: nowrap;
+  }
+}
