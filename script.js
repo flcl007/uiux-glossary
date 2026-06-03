@@ -112,17 +112,23 @@ function goResults({ query = '', category = '' }) {
   if (query) addRecentSearch(query);
   history.pushState({}, '', `#/results?${params.toString()}`);
   render();
+  resetPageScroll();
 }
 
 function goDetail(id) {
   history.pushState({}, '', `#/term/${encodeURIComponent(id)}`);
   render();
+  resetPageScroll();
 }
 
 function getRoute() {
   const hash = location.hash || '#/';
   const [path, qs = ''] = hash.slice(1).split('?');
   return { path, params: new URLSearchParams(qs) };
+}
+
+function resetPageScroll() {
+  requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }));
 }
 
 function render() {

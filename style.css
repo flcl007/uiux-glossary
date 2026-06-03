@@ -1974,3 +1974,23 @@ body {
     letter-spacing: -0.02em !important;
   }
 }
+
+/* v13: mobile bottom sheet horizontal alignment only */
+@media (max-width: 560px) {
+  .category-modal {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .category-modal .modal-head {
+    margin-left: -16px !important;
+    margin-right: -16px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .category-modal .modal-category-grid button {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+  }
+}
