@@ -62,7 +62,6 @@ function searchTerms(query) {
       if (normalizeText(term.en).includes(q)) score += 50;
       if ((term.tags || []).some(tag => normalizeText(tag).includes(q))) score += 35;
       if (normalizedFields.some(field => field.includes(q))) score += 20;
-      if (simpleTypoMatch(q, normalizedFields)) score += 10;
       return { ...term, _score: score };
     })
     .filter(term => term._score > 0)
@@ -86,7 +85,7 @@ function getRelatedSuggestions(query) {
   }
   return [...new Set(pool)]
     .filter(item => !dismissedRelatedSuggestions.has(item))
-    .filter(item => normalizeText(item).includes(q) || normalizeText(item).includes(q.slice(0, -1)))
+    .filter(item => normalizeText(item).includes(q))
     .slice(0, SUGGESTION_LIMIT);
 }
 
@@ -604,7 +603,6 @@ function renderImageGallery(term) {
         ${hasMultipleImages ? '<button class="gallery-nav gallery-nav--next" type="button" data-gallery-next aria-label="다음 이미지">›</button>' : ''}
         ${hasMultipleImages ? `
           <div class="gallery-mobile-affordance" aria-hidden="true">
-            <span>좌우로 넘겨보기</span>
             <div class="gallery-dots">
               ${images.map((_, index) => `<span class="gallery-dot ${index === 0 ? 'is-active' : ''}" data-gallery-dot="${index}"></span>`).join('')}
             </div>
@@ -639,15 +637,17 @@ function bindImageGallery(scope) {
     const safeIndex = Math.min(cards.length - 1, Math.max(0, index));
     const target = cards[safeIndex];
     if (!target) return;
-    gallery.scrollTo({ left: target.offsetLeft - gallery.offsetLeft, behavior: 'smooth' });
+    const centeredLeft = target.offsetLeft - ((gallery.clientWidth - target.clientWidth) / 2);
+    gallery.scrollTo({ left: Math.max(0, centeredLeft), behavior: 'smooth' });
   };
 
   const getClosestIndex = () => {
-    const currentLeft = gallery.scrollLeft + gallery.offsetLeft;
+    const viewportCenter = gallery.scrollLeft + (gallery.clientWidth / 2);
     let closestIndex = 0;
     let closestDistance = Infinity;
     cards.forEach((card, index) => {
-      const distance = Math.abs(card.offsetLeft - currentLeft);
+      const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+      const distance = Math.abs(cardCenter - viewportCenter);
       if (distance < closestDistance) {
         closestDistance = distance;
         closestIndex = index;
