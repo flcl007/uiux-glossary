@@ -424,12 +424,20 @@ function hasImageDisabled(term) {
 
 function getTermImages(term) {
   if (hasImageDisabled(term)) return [];
-  const images = [];
-  if (Array.isArray(term.images)) images.push(...term.images);
-  if (term.image) images.push(term.image);
-  return images
+  const rawImages = [];
+  if (Array.isArray(term.images)) rawImages.push(...term.images);
+  if (term.image) rawImages.push(term.image);
+
+  const seen = new Set();
+  return rawImages
     .map(item => String(item || '').trim())
-    .filter(item => item && !isNoneImageValue(item));
+    .filter(item => item && !isNoneImageValue(item))
+    .filter(item => {
+      const key = item.replace(/^\.\//, '').toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
 }
 
 function parseSources(source) {
@@ -604,8 +612,29 @@ function bindImageGallery(scope) {
   const prev = scope.querySelector('[data-gallery-prev]');
   const next = scope.querySelector('[data-gallery-next]');
   const scrollAmount = () => Math.max(240, gallery.clientWidth * 0.92);
-  prev?.addEventListener('click', () => gallery.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }));
-  next?.addEventListener('click', () => gallery.scrollBy({ left: scrollAmount(), behavior: 'smooth' }));
+
+  const updateNavState = () => {
+    if (!prev || !next) return;
+    const maxScrollLeft = Math.max(0, gallery.scrollWidth - gallery.clientWidth - 1);
+    const atStart = gallery.scrollLeft <= 1;
+    const atEnd = gallery.scrollLeft >= maxScrollLeft;
+    prev.disabled = atStart;
+    next.disabled = atEnd;
+    prev.setAttribute('aria-disabled', String(atStart));
+    next.setAttribute('aria-disabled', String(atEnd));
+  };
+
+  prev?.addEventListener('click', () => {
+    if (prev.disabled) return;
+    gallery.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+  });
+  next?.addEventListener('click', () => {
+    if (next.disabled) return;
+    gallery.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+  });
+  gallery.addEventListener('scroll', () => requestAnimationFrame(updateNavState), { passive: true });
+  window.addEventListener('resize', updateNavState);
+  requestAnimationFrame(updateNavState);
 }
 
 function renderDetail(id) {
