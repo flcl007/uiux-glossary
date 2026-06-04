@@ -54,7 +54,7 @@ function searchTerms(query) {
 
   return terms
     .map(term => {
-      const fields = [term.ko, term.en, term.category, term.summary, term.description, term.example, term.designerNote, term.confusing, term.source, ...(term.synonyms || []), ...(term.tags || [])];
+      const fields = [term.ko, term.en, term.category, term.summary, term.description, term.example, term.designerNote, term.source, ...(term.synonyms || []), ...(term.tags || [])];
       const normalizedFields = fields.map(normalizeText);
       let score = 0;
       if (normalizeText(term.ko) === q || normalizeText(term.en) === q) score += 100;
@@ -410,8 +410,31 @@ function findTermByLooseName(name) {
     || terms.find(term => normalizeText(term.ko).includes(normalized) || normalizeText(term.en).includes(normalized));
 }
 
+function findTermMentionAtStart(text) {
+  const normalizedText = normalizeText(text);
+  if (!normalizedText) return null;
+
+  const sortedTerms = [...terms].sort((a, b) => {
+    const aName = Math.max(String(a.en || '').length, String(a.ko || '').length);
+    const bName = Math.max(String(b.en || '').length, String(b.ko || '').length);
+    return bName - aName;
+  });
+
+  return sortedTerms.find(term => {
+    const names = [term.en, term.ko].filter(Boolean);
+    return names.some(name => {
+      const normalizedName = normalizeText(name);
+      return normalizedName && (
+        normalizedText === normalizedName ||
+        normalizedText.startsWith(`${normalizedName} `)
+      );
+    });
+  }) || null;
+}
+
 function parseConfusingText(value) {
   if (!value) return [];
+
   return String(value)
     .split(/[\n|]+/)
     .map(item => item.trim())
@@ -429,18 +452,20 @@ function parseConfusingText(value) {
         rawName = parts.shift().trim();
         description = parts.join('：').trim();
       } else {
-        rawName = item.trim();
+        return null;
       }
 
       const matched = findTermByLooseName(rawName);
-      return {
-        label: matched ? matched.ko : rawName,
-        termId: matched ? matched.id : '',
-        description: description || item
-      };
-    });
-}
+      if (!matched || !description) return null;
 
+      return {
+        label: matched.ko,
+        termId: matched.id,
+        description
+      };
+    })
+    .filter(Boolean);
+}
 function renderImageGallery(term) {
   const images = getTermImages(term);
   const cards = images.length ? images : [''];
