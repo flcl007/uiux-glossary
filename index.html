@@ -83,11 +83,33 @@
     <section class="results-page">
       <div class="results-search-row">
         <form class="compact-search" data-search-form autocomplete="off">
-          <input data-search-input type="text" aria-label="검색어 입력" />
+          <input data-search-input type="text" placeholder="검색어를 입력하세요." aria-label="검색어 입력" />
           <button class="clear-btn compact" data-clear-search type="button" aria-label="검색어 초기화">×</button>
           <button data-search-submit type="submit" aria-label="검색">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 18a7.5 7.5 0 1 1 5.94-2.92l4.24 4.24-1.42 1.42-4.24-4.24A7.47 7.47 0 0 1 10.5 18Zm0-2a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/></svg>
           </button>
+
+          <div class="suggest-panel" data-suggest-panel>
+            <div class="suggest-section" data-recent-section>
+              <div class="suggest-head">
+                <strong>최근 검색어</strong>
+                <button type="button" data-clear-history>전체 삭제</button>
+              </div>
+              <ul class="recent-list" data-recent-list></ul>
+            </div>
+
+            <div class="suggest-section" data-related-section>
+              <div class="suggest-head">
+                <strong>관련 검색어</strong>
+                <button type="button" data-close-suggest>목록 닫기</button>
+              </div>
+              <ul class="related-list" data-related-list></ul>
+            </div>
+
+            <p class="suggest-empty" data-suggest-empty>
+              일치하는 검색어가 없습니다. 띄어쓰기나 영문 약어로 다시 검색해 보세요.
+            </p>
+          </div>
         </form>
         <div class="result-meta" data-result-meta></div>
       </div>

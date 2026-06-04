@@ -300,15 +300,23 @@ function renderResults(query, category) {
   const form = app.querySelector('[data-search-form]');
   const clearBtn = app.querySelector('[data-clear-search]');
   const meta = app.querySelector('[data-result-meta]');
+  const submitBtn = app.querySelector('[data-search-submit]');
   input.value = query || '';
-  clearBtn.classList.toggle('is-visible', input.value.length > 0);
+  input.setAttribute('placeholder', '검색어를 입력하세요.');
+  clearBtn.classList.toggle('is-visible', input.value.trim().length > 0);
+  if (submitBtn) submitBtn.disabled = input.value.trim().length === 0;
   bindSearchBox(form);
-  input.addEventListener('input', () => clearBtn.classList.toggle('is-visible', input.value.trim().length > 0));
+  input.addEventListener('input', () => {
+    const hasValue = input.value.trim().length > 0;
+    clearBtn.classList.toggle('is-visible', hasValue);
+    if (submitBtn) submitBtn.disabled = !hasValue;
+    updateSuggestPanel(form, input.value);
+  });
 
   const base = query ? searchTerms(query) : terms;
   const filtered = category && category !== 'all' ? base.filter(term => term.category === category) : base;
   const title = query ? `“${escapeHTML(query)}” 검색 결과` : `${escapeHTML(category || '전체')} 카테고리`;
-  meta.innerHTML = `<strong>${title}</strong><span>${filtered.length}개 용어</span>`;
+  meta.innerHTML = `<strong>${title}</strong><span>${filtered.length}개</span>`;
 
   renderResultSections(filtered);
 }

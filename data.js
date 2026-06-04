@@ -120,7 +120,7 @@ window.GLOSSARY_TERMS = [
     "id": "toggle-button",
     "ko": "토글 버튼",
     "en": "Toggle Button",
-    "category": "버튼, 선택 컨트롤",
+    "category": "버튼",
     "tags": [
       "버튼",
       "선택 컨트롤",
@@ -169,7 +169,7 @@ window.GLOSSARY_TERMS = [
     "id": "floating-action-button",
     "ko": "플로팅 액션 버튼",
     "en": "Floating Action Button",
-    "category": "버튼, 모바일 UI",
+    "category": "버튼",
     "tags": [
       "버튼",
       "모바일 UI",
@@ -216,7 +216,7 @@ window.GLOSSARY_TERMS = [
     "id": "sticky-button",
     "ko": "고정 버튼",
     "en": "Sticky Button",
-    "category": "버튼, 모바일 UI",
+    "category": "버튼",
     "tags": [
       "버튼",
       "모바일 UI",
@@ -360,7 +360,7 @@ window.GLOSSARY_TERMS = [
     "id": "error-text",
     "ko": "오류 문구",
     "en": "Error Text",
-    "category": "입력/선택, 피드백",
+    "category": "입력/선택",
     "tags": [
       "입력",
       "선택",
@@ -555,7 +555,7 @@ window.GLOSSARY_TERMS = [
     "id": "dropdown",
     "ko": "드롭다운",
     "en": "Dropdown",
-    "category": "입력/선택, 내비게이션",
+    "category": "입력/선택",
     "tags": [
       "입력",
       "선택",
@@ -628,7 +628,7 @@ window.GLOSSARY_TERMS = [
     "id": "search-field",
     "ko": "검색창",
     "en": "Search Field",
-    "category": "입력/선택, 검색/필터",
+    "category": "입력/선택",
     "tags": [
       "입력",
       "선택",
@@ -654,7 +654,7 @@ window.GLOSSARY_TERMS = [
     "id": "filter",
     "ko": "필터",
     "en": "Filter",
-    "category": "입력/선택, 검색/필터",
+    "category": "입력/선택",
     "tags": [
       "입력",
       "선택",
@@ -680,7 +680,7 @@ window.GLOSSARY_TERMS = [
     "id": "sort",
     "ko": "정렬",
     "en": "Sort",
-    "category": "입력/선택, 검색/필터",
+    "category": "입력/선택",
     "tags": [
       "입력",
       "선택",
@@ -900,7 +900,7 @@ window.GLOSSARY_TERMS = [
     "id": "chip",
     "ko": "칩",
     "en": "Chip",
-    "category": "콘텐츠/정보 표시, 입력/선택",
+    "category": "콘텐츠/정보 표시",
     "tags": [
       "콘텐츠",
       "정보 표시",
@@ -952,7 +952,7 @@ window.GLOSSARY_TERMS = [
     "id": "tooltip",
     "ko": "툴팁",
     "en": "Tooltip",
-    "category": "콘텐츠/정보 표시, 도움말",
+    "category": "콘텐츠/정보 표시",
     "tags": [
       "콘텐츠",
       "정보 표시",
@@ -1171,7 +1171,7 @@ window.GLOSSARY_TERMS = [
     "id": "progress-bar",
     "ko": "프로그레스 바",
     "en": "Progress Bar",
-    "category": "콘텐츠/정보 표시, 진행 상태",
+    "category": "콘텐츠/정보 표시",
     "tags": [
       "콘텐츠",
       "정보 표시",
@@ -1196,7 +1196,7 @@ window.GLOSSARY_TERMS = [
     "id": "spinner",
     "ko": "스피너",
     "en": "Spinner",
-    "category": "콘텐츠/정보 표시, 진행 상태",
+    "category": "콘텐츠/정보 표시",
     "tags": [
       "콘텐츠",
       "정보 표시",
@@ -1221,7 +1221,7 @@ window.GLOSSARY_TERMS = [
     "id": "skeleton-screen",
     "ko": "스켈레톤 스크린",
     "en": "Skeleton Screen",
-    "category": "콘텐츠/정보 표시, 진행 상태",
+    "category": "콘텐츠/정보 표시",
     "tags": [
       "콘텐츠",
       "정보 표시",
@@ -1269,7 +1269,7 @@ window.GLOSSARY_TERMS = [
     "id": "tab-bar",
     "ko": "탭 바",
     "en": "Tab Bar",
-    "category": "내비게이션, 모바일 UI",
+    "category": "내비게이션",
     "tags": [
       "내비게이션",
       "모바일 UI",
@@ -1293,7 +1293,7 @@ window.GLOSSARY_TERMS = [
     "id": "tabs",
     "ko": "탭",
     "en": "Tabs",
-    "category": "내비게이션, 콘텐츠/정보 표시",
+    "category": "내비게이션",
     "tags": [
       "내비게이션",
       "콘텐츠",
@@ -1410,7 +1410,7 @@ window.GLOSSARY_TERMS = [
     "id": "drawer",
     "ko": "드로어",
     "en": "Drawer",
-    "category": "내비게이션, 오버레이",
+    "category": "내비게이션",
     "tags": [
       "내비게이션",
       "오버레이",
@@ -1503,7 +1503,7 @@ window.GLOSSARY_TERMS = [
     "id": "alert",
     "ko": "얼럿",
     "en": "Alert",
-    "category": "피드백/알림, 오버레이",
+    "category": "피드백/알림",
     "tags": [
       "피드백",
       "알림",
@@ -2715,7 +2715,7 @@ window.GLOSSARY_TERMS = [
     "id": "swipe",
     "ko": "스와이프",
     "en": "Swipe",
-    "category": "상태/인터랙션, 모바일 UI",
+    "category": "상태/인터랙션",
     "tags": [
       "상태",
       "인터랙션",
@@ -2740,7 +2740,7 @@ window.GLOSSARY_TERMS = [
     "id": "long-press",
     "ko": "길게 누르기",
     "en": "Long Press",
-    "category": "상태/인터랙션, 모바일 UI",
+    "category": "상태/인터랙션",
     "tags": [
       "상태",
       "인터랙션",
@@ -2765,7 +2765,7 @@ window.GLOSSARY_TERMS = [
     "id": "tap",
     "ko": "탭",
     "en": "Tap",
-    "category": "상태/인터랙션, 모바일 UI",
+    "category": "상태/인터랙션",
     "tags": [
       "상태",
       "인터랙션",
@@ -3764,7 +3764,7 @@ window.GLOSSARY_TERMS = [
     "id": "handoff",
     "ko": "핸드오프",
     "en": "Handoff",
-    "category": "디자인 시스템/Figma, 협업 필수",
+    "category": "디자인 시스템/Figma",
     "tags": [
       "디자인 시스템",
       "Figma",
@@ -3789,7 +3789,7 @@ window.GLOSSARY_TERMS = [
     "id": "design-spec",
     "ko": "디자인 명세",
     "en": "Design Spec",
-    "category": "디자인 시스템/Figma, 협업 필수",
+    "category": "디자인 시스템/Figma",
     "tags": [
       "디자인 시스템",
       "Figma",
@@ -3814,7 +3814,7 @@ window.GLOSSARY_TERMS = [
     "id": "design-qa",
     "ko": "디자인 QA",
     "en": "Design QA",
-    "category": "디자인 시스템/Figma, 협업 필수",
+    "category": "디자인 시스템/Figma",
     "tags": [
       "디자인 시스템",
       "Figma",
@@ -4132,92 +4132,26 @@ window.GLOSSARY_CATEGORIES = [
     "featured": true
   },
   {
-    "id": "버튼, 선택 컨트롤",
-    "label": "버튼, 선택 컨트롤",
-    "icon": "✓",
-    "featured": true
-  },
-  {
-    "id": "버튼, 모바일 UI",
-    "label": "버튼, 모바일 UI",
-    "icon": "✓",
-    "featured": true
-  },
-  {
     "id": "입력/선택",
     "label": "입력/선택",
     "icon": "□",
     "featured": true
   },
   {
-    "id": "입력/선택, 피드백",
-    "label": "입력/선택, 피드백",
-    "icon": "□",
-    "featured": true
-  },
-  {
-    "id": "입력/선택, 내비게이션",
-    "label": "입력/선택, 내비게이션",
-    "icon": "□",
-    "featured": false
-  },
-  {
-    "id": "입력/선택, 검색/필터",
-    "label": "입력/선택, 검색/필터",
-    "icon": "□",
-    "featured": false
-  },
-  {
     "id": "콘텐츠/정보 표시",
     "label": "콘텐츠/정보 표시",
     "icon": "Aa",
-    "featured": false
-  },
-  {
-    "id": "콘텐츠/정보 표시, 입력/선택",
-    "label": "콘텐츠/정보 표시, 입력/선택",
-    "icon": "Aa",
-    "featured": false
-  },
-  {
-    "id": "콘텐츠/정보 표시, 도움말",
-    "label": "콘텐츠/정보 표시, 도움말",
-    "icon": "Aa",
-    "featured": false
-  },
-  {
-    "id": "콘텐츠/정보 표시, 진행 상태",
-    "label": "콘텐츠/정보 표시, 진행 상태",
-    "icon": "Aa",
-    "featured": false
+    "featured": true
   },
   {
     "id": "내비게이션",
     "label": "내비게이션",
-    "icon": "⌂",
-    "featured": false
+    "icon": "↔",
+    "featured": true
   },
   {
-    "id": "내비게이션, 모바일 UI",
-    "label": "내비게이션, 모바일 UI",
-    "icon": "⌂",
-    "featured": false
-  },
-  {
-    "id": "내비게이션, 콘텐츠/정보 표시",
-    "label": "내비게이션, 콘텐츠/정보 표시",
-    "icon": "⌂",
-    "featured": false
-  },
-  {
-    "id": "내비게이션, 오버레이",
-    "label": "내비게이션, 오버레이",
-    "icon": "⌂",
-    "featured": false
-  },
-  {
-    "id": "피드백/알림, 오버레이",
-    "label": "피드백/알림, 오버레이",
+    "id": "피드백/알림",
+    "label": "피드백/알림",
     "icon": "!",
     "featured": false
   },
@@ -4225,12 +4159,6 @@ window.GLOSSARY_CATEGORIES = [
     "id": "오버레이",
     "label": "오버레이",
     "icon": "▣",
-    "featured": false
-  },
-  {
-    "id": "피드백/알림",
-    "label": "피드백/알림",
-    "icon": "!",
     "featured": false
   },
   {
@@ -4258,15 +4186,9 @@ window.GLOSSARY_CATEGORIES = [
     "featured": false
   },
   {
-    "id": "상태/인터랙션, 모바일 UI",
-    "label": "상태/인터랙션, 모바일 UI",
-    "icon": "↯",
-    "featured": false
-  },
-  {
     "id": "화면/플로우",
     "label": "화면/플로우",
-    "icon": "↔",
+    "icon": "⇄",
     "featured": false
   },
   {
@@ -4284,12 +4206,6 @@ window.GLOSSARY_CATEGORIES = [
   {
     "id": "디자인 시스템/Figma",
     "label": "디자인 시스템/Figma",
-    "icon": "F",
-    "featured": false
-  },
-  {
-    "id": "디자인 시스템/Figma, 협업 필수",
-    "label": "디자인 시스템/Figma, 협업 필수",
     "icon": "F",
     "featured": false
   },
