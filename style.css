@@ -2816,3 +2816,55 @@ body {
     border-radius: 16px;
   }
 }
+
+/* v26: image gallery arrow visibility and mobile swipe affordance */
+.detail-image-panel .gallery-nav[hidden] {
+  display: none !important;
+}
+
+.gallery-mobile-affordance {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .detail-image-panel .image-gallery-shell.has-multiple-images::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    right: 0;
+    bottom: 38px;
+    width: 42px;
+    pointer-events: none;
+    border-radius: 0 18px 18px 0;
+    background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.92));
+  }
+
+  .gallery-mobile-affordance {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    margin-top: 8px;
+    color: #8b95a5;
+    font-size: 11.5px;
+    line-height: 1;
+  }
+
+  .gallery-dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .gallery-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 999px;
+    background: #cfd6e2;
+  }
+
+  .gallery-dot.is-active {
+    width: 12px;
+    background: #6f7cff;
+  }
+}

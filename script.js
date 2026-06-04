@@ -586,10 +586,11 @@ function getRecommendedTerms(term, confusingItems = []) {
 function renderImageGallery(term) {
   const images = getTermImages(term);
   if (!images.length) return '';
+  const hasMultipleImages = images.length > 1;
   return `
     <section class="detail-image-panel" aria-label="예시 이미지">
-      <div class="image-gallery-shell">
-        ${images.length > 1 ? '<button class="gallery-nav gallery-nav--prev" type="button" data-gallery-prev aria-label="이전 이미지">‹</button>' : ''}
+      <div class="image-gallery-shell ${hasMultipleImages ? 'has-multiple-images' : ''}">
+        ${hasMultipleImages ? '<button class="gallery-nav gallery-nav--prev" type="button" data-gallery-prev aria-label="이전 이미지">‹</button>' : ''}
         <div class="image-gallery" data-image-gallery>
           ${images.map((src, index) => `
             <figure class="gallery-card">
@@ -600,7 +601,15 @@ function renderImageGallery(term) {
             </figure>
           `).join('')}
         </div>
-        ${images.length > 1 ? '<button class="gallery-nav gallery-nav--next" type="button" data-gallery-next aria-label="다음 이미지">›</button>' : ''}
+        ${hasMultipleImages ? '<button class="gallery-nav gallery-nav--next" type="button" data-gallery-next aria-label="다음 이미지">›</button>' : ''}
+        ${hasMultipleImages ? `
+          <div class="gallery-mobile-affordance" aria-hidden="true">
+            <span>좌우로 넘겨보기</span>
+            <div class="gallery-dots">
+              ${images.map((_, index) => `<span class="gallery-dot ${index === 0 ? 'is-active' : ''}" data-gallery-dot="${index}"></span>`).join('')}
+            </div>
+          </div>
+        ` : ''}
       </div>
     </section>
   `;
@@ -611,17 +620,29 @@ function bindImageGallery(scope) {
   if (!gallery) return;
   const prev = scope.querySelector('[data-gallery-prev]');
   const next = scope.querySelector('[data-gallery-next]');
+  const dots = Array.from(scope.querySelectorAll('[data-gallery-dot]'));
   const scrollAmount = () => Math.max(240, gallery.clientWidth * 0.92);
 
   const updateNavState = () => {
-    if (!prev || !next) return;
     const maxScrollLeft = Math.max(0, gallery.scrollWidth - gallery.clientWidth - 1);
     const atStart = gallery.scrollLeft <= 1;
     const atEnd = gallery.scrollLeft >= maxScrollLeft;
-    prev.disabled = atStart;
-    next.disabled = atEnd;
-    prev.setAttribute('aria-disabled', String(atStart));
-    next.setAttribute('aria-disabled', String(atEnd));
+
+    if (prev && next) {
+      prev.hidden = atStart;
+      next.hidden = atEnd;
+      prev.disabled = atStart;
+      next.disabled = atEnd;
+      prev.setAttribute('aria-disabled', String(atStart));
+      next.setAttribute('aria-disabled', String(atEnd));
+    }
+
+    if (dots.length) {
+      const cardWidth = gallery.querySelector('.gallery-card')?.getBoundingClientRect().width || gallery.clientWidth;
+      const gap = parseFloat(getComputedStyle(gallery).columnGap || getComputedStyle(gallery).gap || '0') || 0;
+      const index = Math.min(dots.length - 1, Math.max(0, Math.round(gallery.scrollLeft / Math.max(1, cardWidth + gap))));
+      dots.forEach((dot, dotIndex) => dot.classList.toggle('is-active', dotIndex === index));
+    }
   };
 
   prev?.addEventListener('click', () => {
