@@ -620,42 +620,66 @@ function bindImageGallery(scope) {
   if (!gallery) return;
   const prev = scope.querySelector('[data-gallery-prev]');
   const next = scope.querySelector('[data-gallery-next]');
+  const cards = Array.from(gallery.querySelectorAll('.gallery-card'));
   const dots = Array.from(scope.querySelectorAll('[data-gallery-dot]'));
-  const scrollAmount = () => Math.max(240, gallery.clientWidth * 0.92);
+  if (!cards.length) return;
+
+  let activeIndex = 0;
+
+  const setButtonVisible = (button, visible) => {
+    if (!button) return;
+    button.hidden = !visible;
+    button.disabled = !visible;
+    button.setAttribute('aria-disabled', String(!visible));
+    button.classList.toggle('is-hidden', !visible);
+    button.style.display = visible ? '' : 'none';
+  };
+
+  const scrollToIndex = index => {
+    const safeIndex = Math.min(cards.length - 1, Math.max(0, index));
+    const target = cards[safeIndex];
+    if (!target) return;
+    gallery.scrollTo({ left: target.offsetLeft - gallery.offsetLeft, behavior: 'smooth' });
+  };
+
+  const getClosestIndex = () => {
+    const currentLeft = gallery.scrollLeft + gallery.offsetLeft;
+    let closestIndex = 0;
+    let closestDistance = Infinity;
+    cards.forEach((card, index) => {
+      const distance = Math.abs(card.offsetLeft - currentLeft);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestIndex = index;
+      }
+    });
+    return closestIndex;
+  };
 
   const updateNavState = () => {
-    const maxScrollLeft = Math.max(0, gallery.scrollWidth - gallery.clientWidth - 1);
-    const atStart = gallery.scrollLeft <= 1;
-    const atEnd = gallery.scrollLeft >= maxScrollLeft;
-
-    if (prev && next) {
-      prev.hidden = atStart;
-      next.hidden = atEnd;
-      prev.disabled = atStart;
-      next.disabled = atEnd;
-      prev.setAttribute('aria-disabled', String(atStart));
-      next.setAttribute('aria-disabled', String(atEnd));
-    }
-
-    if (dots.length) {
-      const cardWidth = gallery.querySelector('.gallery-card')?.getBoundingClientRect().width || gallery.clientWidth;
-      const gap = parseFloat(getComputedStyle(gallery).columnGap || getComputedStyle(gallery).gap || '0') || 0;
-      const index = Math.min(dots.length - 1, Math.max(0, Math.round(gallery.scrollLeft / Math.max(1, cardWidth + gap))));
-      dots.forEach((dot, dotIndex) => dot.classList.toggle('is-active', dotIndex === index));
-    }
+    activeIndex = getClosestIndex();
+    const hasMultiple = cards.length > 1;
+    setButtonVisible(prev, hasMultiple && activeIndex > 0);
+    setButtonVisible(next, hasMultiple && activeIndex < cards.length - 1);
+    dots.forEach((dot, dotIndex) => dot.classList.toggle('is-active', dotIndex === activeIndex));
   };
 
   prev?.addEventListener('click', () => {
-    if (prev.disabled) return;
-    gallery.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+    if (prev.hidden || prev.disabled) return;
+    scrollToIndex(activeIndex - 1);
   });
   next?.addEventListener('click', () => {
-    if (next.disabled) return;
-    gallery.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+    if (next.hidden || next.disabled) return;
+    scrollToIndex(activeIndex + 1);
   });
+
   gallery.addEventListener('scroll', () => requestAnimationFrame(updateNavState), { passive: true });
-  window.addEventListener('resize', updateNavState);
-  requestAnimationFrame(updateNavState);
+  window.addEventListener('resize', () => requestAnimationFrame(updateNavState));
+  requestAnimationFrame(() => {
+    gallery.scrollLeft = 0;
+    activeIndex = 0;
+    updateNavState();
+  });
 }
 
 function renderDetail(id) {
