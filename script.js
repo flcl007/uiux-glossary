@@ -128,7 +128,20 @@ function getRoute() {
 }
 
 function resetPageScroll() {
-  requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'auto' }));
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    const scrollingElement = document.scrollingElement || document.documentElement;
+    if (scrollingElement) scrollingElement.scrollTop = 0;
+  };
+
+  scrollToTop();
+  requestAnimationFrame(() => {
+    scrollToTop();
+    requestAnimationFrame(scrollToTop);
+  });
+  setTimeout(scrollToTop, 80);
 }
 
 function render() {
@@ -628,14 +641,7 @@ function renderDetail(id) {
           </div>
         </div>
 
-        <p class="term-summary">${escapeHTML(term.summary || term.description || '')}</p>
-
-        ${term.description ? `
-          <section class="detail-card">
-            <h2>설명</h2>
-            <p>${escapeHTML(term.description)}</p>
-          </section>
-        ` : ''}
+        <p class="term-summary">${escapeHTML(term.description || term.summary || '')}</p>
 
         ${confusingItems.length ? `
           <section class="detail-card">

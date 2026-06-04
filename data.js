@@ -17,7 +17,7 @@ window.GLOSSARY_TERMS = [
       "강조 버튼",
       "대표 버튼"
     ],
-    "confusing": "Secondary Button: 중요도가 낮은 보조 행동에 사용합니다.",
+    "confusing": "보조 버튼: 기본 버튼보다 낮은 우선순위의 행동을 제공하는 버튼입니다.\n터셔리 버튼: 기본·보조 버튼보다 더 낮은 강조 수준의 버튼입니다.",
     "source": "https://m3.material.io/components",
     "images": [
       "./assets/images/primary-button.png"
@@ -40,7 +40,7 @@ window.GLOSSARY_TERMS = [
       "보조 액션 버튼",
       "외곽선 버튼"
     ],
-    "confusing": "Primary Button: 화면의 핵심 행동을 강조합니다.",
+    "confusing": "기본 버튼: 화면에서 가장 중요한 한 가지 행동을 실행하는 버튼입니다.\n터셔리 버튼: 기본·보조 버튼보다 더 낮은 강조 수준의 버튼입니다.",
     "source": "https://m3.material.io/components",
     "images": [
       "./assets/images/secondary-button.png"
@@ -63,7 +63,7 @@ window.GLOSSARY_TERMS = [
       "3차 버튼",
       "약한 강조 버튼"
     ],
-    "confusing": "Text Button과 비슷하지만 디자인 시스템에 따라 강조 단계로 구분합니다.",
+    "confusing": "기본 버튼: 화면에서 가장 중요한 한 가지 행동을 실행하는 버튼입니다.\n보조 버튼: 기본 버튼보다 낮은 우선순위의 행동을 제공하는 버튼입니다.",
     "source": "https://m3.material.io/components",
     "images": [
       "./assets/images/tertiary-button.png"
@@ -89,9 +89,10 @@ window.GLOSSARY_TERMS = [
     "confusing": "Link: 페이지 이동이 목적이면 링크, 화면 안 행동 실행이면 버튼에 가깝습니다.",
     "source": "https://m3.material.io/components",
     "images": [
-      "./assets/images/text-button.png"
+      "./assets/images/text-button1.png",
+      "./assets/images/text-button2.png"
     ],
-    "image": "./assets/images/text-button.png"
+    "image": "./assets/images/text-button1.png"
   },
   {
     "id": "icon-button",
@@ -118,7 +119,7 @@ window.GLOSSARY_TERMS = [
   },
   {
     "id": "toggle-button",
-    "ko": "토글 버튼",
+    "ko": "토글/스위치 버튼",
     "en": "Toggle Button",
     "category": "버튼",
     "tags": [
@@ -138,9 +139,10 @@ window.GLOSSARY_TERMS = [
     "confusing": "Switch: 설정을 켜고 끄는 독립 옵션에 더 자주 사용합니다.",
     "source": "https://m3.material.io/components",
     "images": [
-      "./assets/images/toggle-button.png"
+      "./assets/images/toggle-button1.png",
+      "./assets/images/toggle-button2.png"
     ],
-    "image": "./assets/images/toggle-button.png"
+    "image": "./assets/images/toggle-button1.png"
   },
   {
     "id": "split-button",
@@ -185,9 +187,10 @@ window.GLOSSARY_TERMS = [
     "confusing": "Sticky Button: 화면 하단 등에 고정되는 버튼이고, 플로팅 액션 버튼은 보통 떠 있는 원형 버튼 형태입니다.",
     "source": "https://m3.material.io/components",
     "images": [
-      "./assets/images/floating-action-button.png"
+      "./assets/images/floating-action-button1.png",
+      "./assets/images/floating-action-button2.png"
     ],
-    "image": "./assets/images/floating-action-button.png"
+    "image": "./assets/images/floating-action-button1.png"
   },
   {
     "id": "cta",
@@ -205,7 +208,7 @@ window.GLOSSARY_TERMS = [
       "행동 유도 버튼",
       "전환 버튼"
     ],
-    "confusing": "Primary Button은 버튼 스타일의 위계이고, CTA는 사용자를 행동으로 이끄는 목적입니다.",
+    "confusing": "",
     "source": "https://www.nngroup.com/articles/",
     "images": [
       "./assets/images/cta.png"
@@ -502,32 +505,6 @@ window.GLOSSARY_TERMS = [
     "image": "./assets/images/radio-button.png"
   },
   {
-    "id": "switch",
-    "ko": "스위치",
-    "en": "Switch",
-    "category": "입력/선택",
-    "tags": [
-      "입력",
-      "선택",
-      "토글 스위치",
-      "스위치 버튼",
-      "온오프 스위치"
-    ],
-    "summary": "설정처럼 즉시 켜고 끄는 독립적인 옵션에 사용하는 선택 컨트롤입니다.",
-    "description": "설정처럼 즉시 켜고 끄는 독립적인 옵션에 사용하는 선택 컨트롤입니다. 알림 받기, 다크 모드처럼 상태 변경 결과가 바로 적용되는 항목에 적합합니다.",
-    "synonyms": [
-      "토글 스위치",
-      "스위치 버튼",
-      "온오프 스위치"
-    ],
-    "confusing": "Toggle Button: 버튼 자체가 선택 상태를 나타내는 액션형 패턴에 더 가깝습니다.",
-    "source": "https://m3.material.io/components",
-    "images": [
-      "./assets/images/switch.png"
-    ],
-    "image": "./assets/images/switch.png"
-  },
-  {
     "id": "select",
     "ko": "셀렉트",
     "en": "Select",
@@ -727,28 +704,32 @@ window.GLOSSARY_TERMS = [
     "image": "./assets/images/slider.png"
   },
   {
-    "id": "stepper-input",
-    "ko": "스테퍼 입력",
-    "en": "Stepper Input",
+    "id": "text-button1.png, text-button2.png",
+    "ko": "스테퍼",
+    "en": "Stepper",
     "category": "입력/선택",
     "tags": [
       "입력",
       "선택",
       "수량 선택기",
-      "숫자 조절 버튼"
+      "숫자 조절 버튼",
+      "스텝퍼"
     ],
     "summary": "더하기와 빼기 버튼으로 숫자 값을 단계적으로 조절하는 입력 요소입니다.",
     "description": "더하기와 빼기 버튼으로 숫자 값을 단계적으로 조절하는 입력 요소입니다. 수량, 인원 수, 반복 횟수처럼 정수 단위로 증가하거나 감소하는 값에 적합합니다.",
     "synonyms": [
       "수량 선택기",
-      "숫자 조절 버튼"
+      "숫자 조절 버튼",
+      "스텝퍼"
     ],
     "confusing": "Slider: 연속적인 범위 값을 시각적으로 조정합니다.",
     "source": "https://m3.material.io/components",
     "images": [
-      "./assets/images/stepper-input.png"
+      "./assets/images/stepper1.png",
+      "./assets/images/stepper2.png",
+      "./assets/images/stepper3.png"
     ],
-    "image": "./assets/images/stepper-input.png"
+    "image": "./assets/images/stepper1.png"
   },
   {
     "id": "character-counter",
@@ -842,9 +823,11 @@ window.GLOSSARY_TERMS = [
     "confusing": "Table: 행과 열로 여러 속성을 비교할 때 더 적합합니다.",
     "source": "https://m3.material.io/components",
     "images": [
-      "./assets/images/list.png"
+      "./assets/images/list1.png",
+      "./assets/images/list2.png",
+      "./assets/images/list3.png"
     ],
-    "image": "./assets/images/list.png"
+    "image": "./assets/images/list1.png"
   },
   {
     "id": "table",
@@ -892,9 +875,10 @@ window.GLOSSARY_TERMS = [
     "confusing": "Tag: 분류나 키워드 표시 목적이 강합니다.",
     "source": "https://m3.material.io/components",
     "images": [
-      "./assets/images/badge.png"
+      "./assets/images/badge1.png",
+      "./assets/images/badge2.png"
     ],
-    "image": "./assets/images/badge.png"
+    "image": "./assets/images/badge1.png"
   },
   {
     "id": "chip",
@@ -920,9 +904,11 @@ window.GLOSSARY_TERMS = [
     "confusing": "Tag: 보통 분류 표시이고, Chip은 선택·삭제 같은 상호작용을 포함할 수 있습니다.",
     "source": "https://m3.material.io/components",
     "images": [
-      "./assets/images/chip.png"
+      "./assets/images/chip1.png",
+      "./assets/images/chip2.png",
+      "./assets/images/chip3.png"
     ],
-    "image": "./assets/images/chip.png"
+    "image": "./assets/images/chip1.png"
   },
   {
     "id": "tag",
@@ -944,9 +930,11 @@ window.GLOSSARY_TERMS = [
     "confusing": "Badge: 수량이나 상태를 더 작고 강조해 보여주는 경우가 많습니다.",
     "source": "https://m3.material.io/components",
     "images": [
-      "./assets/images/tag.png"
+      "./assets/images/tag1.png",
+      "./assets/images/tag2.png",
+      "./assets/images/tag3.png"
     ],
-    "image": "./assets/images/tag.png"
+    "image": "./assets/images/tag1.png"
   },
   {
     "id": "tooltip",
@@ -969,9 +957,10 @@ window.GLOSSARY_TERMS = [
     "confusing": "Popover: 더 많은 내용이나 조작 요소를 담을 수 있는 작은 레이어입니다.",
     "source": "https://m3.material.io/components",
     "images": [
-      "./assets/images/tooltip.png"
+      "./assets/images/tooltip1.png",
+      "./assets/images/tooltip2.png"
     ],
-    "image": "./assets/images/tooltip.png"
+    "image": "./assets/images/tooltip1.png"
   },
   {
     "id": "accordion",
@@ -993,9 +982,11 @@ window.GLOSSARY_TERMS = [
     "confusing": "Tabs: 같은 수준의 콘텐츠를 전환하고, Accordion은 같은 화면 안에서 내용을 접고 펼칩니다.",
     "source": "https://m3.material.io/components",
     "images": [
-      "./assets/images/accordion.png"
+      "./assets/images/accordion1.png",
+      "./assets/images/accordion2.png",
+      "./assets/images/accordion3.png"
     ],
-    "image": "./assets/images/accordion.png"
+    "image": "./assets/images/accordion1.png"
   },
   {
     "id": "carousel",
@@ -1188,9 +1179,12 @@ window.GLOSSARY_TERMS = [
     "confusing": "Spinner: 정확한 진행률을 알 수 없을 때 회전 애니메이션으로 처리 중임을 보여줍니다.",
     "source": "https://m3.material.io/components",
     "images": [
-      "./assets/images/progress-bar.png"
+      "./assets/images/progress-bar1.png",
+      "./assets/images/progress-bar2.png",
+      "./assets/images/progress-bar3.png",
+      "./assets/images/progress-bar4.png"
     ],
-    "image": "./assets/images/progress-bar.png"
+    "image": "./assets/images/progress-bar1.png"
   },
   {
     "id": "spinner",
@@ -1636,9 +1630,11 @@ window.GLOSSARY_TERMS = [
     "confusing": "Snackbar: 행동 취소 같은 짧은 액션을 포함하는 경우가 많습니다.",
     "source": "https://m3.material.io/components",
     "images": [
-      "./assets/images/toast.png"
+      "./assets/images/toast1.png",
+      "./assets/images/toast2.png",
+      "./assets/images/toast3.png"
     ],
-    "image": "./assets/images/toast.png"
+    "image": "./assets/images/toast1.png"
   },
   {
     "id": "snackbar",
@@ -1660,9 +1656,11 @@ window.GLOSSARY_TERMS = [
     "confusing": "Toast: 보통 알림만 전달하고 액션 없이 사라지는 경우가 많습니다.",
     "source": "https://m3.material.io/components",
     "images": [
-      "./assets/images/snackbar.png"
+      "./assets/images/snackbar1.png",
+      "./assets/images/snackbar2.png",
+      "./assets/images/snackbar3.png"
     ],
-    "image": "./assets/images/snackbar.png"
+    "image": "./assets/images/snackbar1.png"
   },
   {
     "id": "notification",
@@ -1756,9 +1754,10 @@ window.GLOSSARY_TERMS = [
     "confusing": "Alert: 위험이나 정보를 알리는 목적이 더 넓고, 확인 다이얼로그는 특정 행동 승인에 초점이 있습니다.",
     "source": "https://developer.apple.com/design/human-interface-guidelines",
     "images": [
-      "./assets/images/confirmation-dialog.png"
+      "./assets/images/confirmation-dialog1.png",
+      "./assets/images/confirmation-dialog2.png"
     ],
-    "image": "./assets/images/confirmation-dialog.png"
+    "image": "./assets/images/confirmation-dialog1.png"
   },
   {
     "id": "success-state",
@@ -2683,9 +2682,10 @@ window.GLOSSARY_TERMS = [
     "confusing": "Empty State: 로딩이 끝났지만 보여줄 내용이 없는 상태입니다.",
     "source": "https://m3.material.io/components",
     "images": [
-      "./assets/images/loading-state.png"
+      "./assets/images/loading-state1.png",
+      "./assets/images/loading-state2.png"
     ],
-    "image": "./assets/images/loading-state.png"
+    "image": "./assets/images/loading-state1.png"
   },
   {
     "id": "drag-and-drop",
@@ -2953,30 +2953,6 @@ window.GLOSSARY_TERMS = [
       "./assets/images/wizard.png"
     ],
     "image": "./assets/images/wizard.png"
-  },
-  {
-    "id": "stepper",
-    "ko": "스테퍼",
-    "en": "Stepper",
-    "category": "화면/플로우",
-    "tags": [
-      "화면",
-      "플로우",
-      "단계 표시",
-      "진행 단계 표시"
-    ],
-    "summary": "여러 단계 중 현재 사용자가 어느 단계에 있는지 보여주는 진행 표시입니다.",
-    "description": "여러 단계 중 현재 사용자가 어느 단계에 있는지 보여주는 진행 표시입니다. 회원가입, 예약, 결제처럼 순서가 있는 흐름에서 전체 단계와 현재 위치를 파악하게 합니다.",
-    "synonyms": [
-      "단계 표시",
-      "진행 단계 표시"
-    ],
-    "confusing": "Stepper Input: 숫자를 증감하는 입력 요소입니다.",
-    "source": "https://m3.material.io/components",
-    "images": [
-      "./assets/images/stepper.png"
-    ],
-    "image": "./assets/images/stepper.png"
   },
   {
     "id": "user-flow",
