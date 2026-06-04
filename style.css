@@ -2719,3 +2719,32 @@ body {
     flex-basis: 164px !important;
   }
 }
+
+/* v22: 전체 카테고리 팝업의 문자형 아이콘(WF, A11y) 넘침 방지 */
+.modal-category-grid span {
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 24px !important;
+  height: 24px !important;
+  font-size: 11px !important;
+  line-height: 1 !important;
+  letter-spacing: -0.06em !important;
+  font-weight: 600 !important;
+  padding: 0 1px !important;
+}
+
+@media (max-width: 560px) {
+  .modal-category-grid span,
+  .category-modal .modal-category-grid span {
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 9px !important;
+    line-height: 1 !important;
+    letter-spacing: -0.08em !important;
+    padding: 0 1px !important;
+  }
+}
