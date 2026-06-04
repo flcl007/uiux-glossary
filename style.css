@@ -3030,3 +3030,12 @@ body {
     min-height: 280px !important;
   }
 }
+
+/* v29: remove mobile gallery fade overlay, keep partial next image affordance */
+@media (max-width: 760px) {
+  .detail-image-panel .image-gallery-shell.has-multiple-images::after {
+    content: none !important;
+    display: none !important;
+    background: none !important;
+  }
+}
