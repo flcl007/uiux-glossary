@@ -394,33 +394,71 @@ function getTermImages(term) {
   return [];
 }
 
+function parseSources(source) {
+  if (!source) return [];
+  if (Array.isArray(source)) return source.filter(Boolean);
+  return String(source)
+    .split(/[\n,]+/)
+    .map(item => item.trim())
+    .filter(Boolean);
+}
+
+function parseConfusingText(value) {
+  if (!value) return [];
+  return String(value)
+    .split(/[\n;]+/)
+    .map(item => item.trim())
+    .filter(Boolean)
+    .map(item => {
+      let rawName = '';
+      let desc = item;
+      const colonIndex = item.indexOf(':');
+      if (colonIndex > 0) {
+        rawName = item.slice(0, colonIndex).trim();
+        desc = item.slice(colonIndex + 1).trim();
+      } else {
+        const match = item.match(/^(.+?)(은|는|과|와)\s/);
+        if (match) {
+          rawName = match[1].trim();
+          desc = item.slice(match[0].length).trim();
+        }
+      }
+      const matched = rawName ? findTermByLooseName(rawName) : null;
+      return {
+        label: matched ? matched.ko : rawName,
+        termId: matched ? matched.id : '',
+        description: desc || item
+      };
+    });
+}
+
+function findTermByLooseName(name) {
+  const normalized = normalize(name);
+  if (!normalized) return null;
+  return terms.find(term => normalize(term.ko) === normalized || normalize(term.en) === normalized)
+    || terms.find(term => normalize(term.ko).includes(normalized) || normalize(term.en).includes(normalized));
+}
+
 function renderImageGallery(term) {
   const images = getTermImages(term);
   if (!images.length) {
     return `
-      <section class="detail-card image-gallery-section">
-        <h2>예시 이미지</h2>
+      <section class="detail-image-panel" aria-label="예시 이미지">
         <div class="image-empty-slot">
-          <span>이미지 준비 중</span>
-          <p>이미지 파일명이 추가되면 이 영역에 예시 이미지가 표시됩니다.</p>
+          <span>예시 이미지 준비 중</span>
         </div>
       </section>
     `;
   }
 
   return `
-    <section class="detail-card image-gallery-section">
-      <div class="gallery-head">
-        <h2>예시 이미지</h2>
-        <span>${images.length}장</span>
-      </div>
+    <section class="detail-image-panel" aria-label="예시 이미지">
       <div class="image-gallery-shell">
-        ${images.length > 3 ? '<button class="gallery-nav gallery-nav--prev" type="button" data-gallery-prev aria-label="이전 이미지">‹</button>' : ''}
+        ${images.length > 1 ? '<button class="gallery-nav gallery-nav--prev" type="button" data-gallery-prev aria-label="이전 이미지">‹</button>' : ''}
         <div class="image-gallery" data-image-gallery>
           ${images.map((src, index) => `
             <figure class="gallery-card">
               <img src="${escapeHTML(src)}" alt="${escapeHTML(term.ko)} 예시 이미지 ${index + 1}" loading="lazy" onerror="this.closest('.gallery-card').classList.add('is-missing'); this.remove();" />
-              <figcaption>${index + 1}. ${escapeHTML(src.split('/').pop() || 'image')}</figcaption>
               <div class="image-placeholder">
                 <span>이미지 위치</span>
                 <strong>${escapeHTML(src.split('/').pop() || 'image')}</strong>
@@ -428,7 +466,7 @@ function renderImageGallery(term) {
             </figure>
           `).join('')}
         </div>
-        ${images.length > 3 ? '<button class="gallery-nav gallery-nav--next" type="button" data-gallery-next aria-label="다음 이미지">›</button>' : ''}
+        ${images.length > 1 ? '<button class="gallery-nav gallery-nav--next" type="button" data-gallery-next aria-label="다음 이미지">›</button>' : ''}
       </div>
     </section>
   `;
@@ -462,64 +500,64 @@ function renderDetail(id) {
     return;
   }
 
-  const synonyms = Array.isArray(term.synonyms) ? term.synonyms : [];
-  const imageCount = getTermImages(term).length;
+  const confusingItems = parseConfusingText(term.confusing);
+  const sourceLinks = parseSources(term.source);
 
   detail.innerHTML = `
-    <div class="term-header term-header--xlsx">
-      <div>
-        <span class="term-category">${escapeHTML(term.category)}</span>
-        <h1>${escapeHTML(term.ko)}</h1>
-        <p class="term-ko">${escapeHTML(term.en)}</p>
-      </div>
-      <div class="term-image-count" aria-label="예시 이미지 수">
-        <strong>${imageCount}</strong>
-        <span>image</span>
-      </div>
-    </div>
-
-    <p class="term-summary">${escapeHTML(term.summary || term.description)}</p>
-
-    ${renderImageGallery(term)}
-
-    <section class="detail-card">
-      <h2>설명</h2>
-      <p>${escapeHTML(term.description)}</p>
-    </section>
-
-    ${synonyms.length ? `
-      <section class="detail-card">
-        <h2>동의어/유사어</h2>
-        <div class="tag-row tag-row--inside">
-          ${synonyms.map(item => `<span>${escapeHTML(item)}</span>`).join('')}
+    <div class="detail-split-layout">
+      <div class="detail-copy-panel">
+        <div class="term-header term-header--xlsx">
+          <div>
+            <span class="term-category">${escapeHTML(term.category)}</span>
+            <h1>${escapeHTML(term.ko)}</h1>
+            <p class="term-ko">${escapeHTML(term.en)}</p>
+          </div>
         </div>
-      </section>
-    ` : ''}
 
-    ${term.confusing ? `
-      <section class="detail-card">
-        <h2>헷갈리기 쉬운 용어/구분</h2>
-        <p>${escapeHTML(term.confusing)}</p>
-      </section>
-    ` : ''}
+        <p class="term-summary">${escapeHTML(term.summary || term.description)}</p>
 
-    ${term.source ? `
-      <section class="detail-card source-card">
-        <h2>참고 출처</h2>
-        <p>${escapeHTML(term.source)}</p>
-      </section>
-    ` : ''}
+        <section class="detail-card">
+          <h2>설명</h2>
+          <p>${escapeHTML(term.description)}</p>
+        </section>
 
-    <div class="tag-row">
-      ${(term.tags || []).map(tag => `<span>${escapeHTML(tag)}</span>`).join('')}
+        ${confusingItems.length ? `
+          <section class="detail-card">
+            <h2>헷갈리기 쉬운 용어/구분</h2>
+            <div class="confusing-list">
+              ${confusingItems.map(item => `
+                <div class="confusing-item">
+                  ${item.termId ? `<button type="button" data-term-id="${escapeHTML(item.termId)}">${escapeHTML(item.label)}</button>` : item.label ? `<span>${escapeHTML(item.label)}</span>` : ''}
+                  <p>${escapeHTML(item.description)}</p>
+                </div>
+              `).join('')}
+            </div>
+          </section>
+        ` : ''}
+
+        ${sourceLinks.length ? `
+          <section class="detail-card source-card">
+            <h2>참고 출처</h2>
+            <div class="source-links">
+              ${sourceLinks.map((link, index) => `<a href="${escapeHTML(link)}" target="_blank" rel="noopener noreferrer">참고 링크 ${index + 1}</a>`).join('')}
+            </div>
+          </section>
+        ` : ''}
+      </div>
+
+      ${renderImageGallery(term)}
     </div>
   `;
 
   bindImageGallery(detail);
+  detail.onclick = event => {
+    const item = event.target.closest('[data-term-id]');
+    if (item) goDetail(item.dataset.termId);
+  };
 
   const relatedTerms = terms.filter(item => item.id !== term.id && item.category === term.category).slice(0, 4);
   related.innerHTML = `
-    <h2>같은 카테고리 용어</h2>
+    <h2>함께 보면 좋은 용어</h2>
     <div class="related-grid">
       ${relatedTerms.map(item => `<button type="button" data-term-id="${escapeHTML(item.id)}">${escapeHTML(item.ko)}<span>${escapeHTML(item.en)}</span></button>`).join('')}
     </div>
