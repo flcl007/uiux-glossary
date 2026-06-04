@@ -466,6 +466,64 @@ function parseConfusingText(value) {
     })
     .filter(Boolean);
 }
+
+const MANUAL_CONFUSING_MAP = {
+  'primary-button': ['secondary-button', 'tertiary-button'],
+  'secondary-button': ['primary-button', 'tertiary-button'],
+  'tertiary-button': ['primary-button', 'secondary-button']
+};
+
+function getManualConfusingItems(term) {
+  const ids = MANUAL_CONFUSING_MAP[term.id] || [];
+  return ids
+    .map(id => terms.find(item => item.id === id))
+    .filter(Boolean)
+    .map(item => ({
+      label: item.ko,
+      termId: item.id,
+      description: item.summary || item.description || ''
+    }))
+    .filter(item => item.description);
+}
+
+function getConfusingItems(term) {
+  const manual = getManualConfusingItems(term);
+  if (manual.length) return manual;
+  return parseConfusingText(term.confusing);
+}
+
+function getTermSearchTokens(term) {
+  return [
+    term.ko,
+    term.en,
+    term.category,
+    ...(term.tags || []),
+    ...(term.synonyms || [])
+  ].map(normalizeText).filter(Boolean);
+}
+
+function getRecommendedTerms(term, confusingItems = []) {
+  const confusingIds = new Set(confusingItems.map(item => item.termId).filter(Boolean));
+  const currentTokens = new Set(getTermSearchTokens(term));
+
+  return terms
+    .filter(item => item.id !== term.id)
+    .map(item => {
+      let score = 0;
+      if (confusingIds.has(item.id)) score += 100;
+      if (item.category === term.category) score += 35;
+      const itemTokens = getTermSearchTokens(item);
+      for (const token of itemTokens) {
+        if (currentTokens.has(token)) score += 8;
+      }
+      if (normalizeText(item.ko).includes(normalizeText(term.ko)) || normalizeText(term.ko).includes(normalizeText(item.ko))) score += 5;
+      return { ...item, _recommendScore: score };
+    })
+    .filter(item => item._recommendScore > 0)
+    .sort((a, b) => b._recommendScore - a._recommendScore || a.ko.localeCompare(b.ko, 'ko'))
+    .slice(0, 16);
+}
+
 function renderImageGallery(term) {
   const images = getTermImages(term);
   const cards = images.length ? images : [''];
@@ -519,7 +577,7 @@ function renderDetail(id) {
     return;
   }
 
-  const confusingItems = parseConfusingText(term.confusing);
+  const confusingItems = getConfusingItems(term);
   const sourceLinks = parseSources(term.source);
 
   detail.innerHTML = `
@@ -576,13 +634,13 @@ function renderDetail(id) {
     if (item) goDetail(item.dataset.termId);
   };
 
-  const relatedTerms = terms.filter(item => item.id !== term.id && item.category === term.category).slice(0, 4);
-  related.innerHTML = `
+  const relatedTerms = getRecommendedTerms(term, confusingItems);
+  related.innerHTML = relatedTerms.length ? `
     <h2>함께 보면 좋은 용어</h2>
-    <div class="related-grid">
+    <div class="related-grid related-scroll" aria-label="함께 보면 좋은 용어 목록">
       ${relatedTerms.map(item => `<button type="button" data-term-id="${escapeHTML(item.id)}">${escapeHTML(item.ko)}<span>${escapeHTML(item.en)}</span></button>`).join('')}
     </div>
-  `;
+  ` : '';
   related.onclick = event => {
     const item = event.target.closest('[data-term-id]');
     if (item) goDetail(item.dataset.termId);
