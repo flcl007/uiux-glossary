@@ -396,72 +396,65 @@ function getTermImages(term) {
 
 function parseSources(source) {
   if (!source) return [];
-  if (Array.isArray(source)) return source.filter(Boolean);
+  if (Array.isArray(source)) return source.map(String).map(v => v.trim()).filter(Boolean);
   return String(source)
     .split(/[\n,]+/)
     .map(item => item.trim())
     .filter(Boolean);
 }
 
+function findTermByLooseName(name) {
+  const normalized = normalizeText(name);
+  if (!normalized) return null;
+  return terms.find(term => normalizeText(term.ko) === normalized || normalizeText(term.en) === normalized)
+    || terms.find(term => normalizeText(term.ko).includes(normalized) || normalizeText(term.en).includes(normalized));
+}
+
 function parseConfusingText(value) {
   if (!value) return [];
   return String(value)
-    .split(/[\n;]+/)
+    .split(/[\n|]+/)
     .map(item => item.trim())
     .filter(Boolean)
     .map(item => {
       let rawName = '';
-      let desc = item;
-      const colonIndex = item.indexOf(':');
-      if (colonIndex > 0) {
-        rawName = item.slice(0, colonIndex).trim();
-        desc = item.slice(colonIndex + 1).trim();
+      let description = '';
+
+      if (item.includes(':')) {
+        const parts = item.split(':');
+        rawName = parts.shift().trim();
+        description = parts.join(':').trim();
+      } else if (item.includes('：')) {
+        const parts = item.split('：');
+        rawName = parts.shift().trim();
+        description = parts.join('：').trim();
       } else {
-        const match = item.match(/^(.+?)(은|는|과|와)\s/);
-        if (match) {
-          rawName = match[1].trim();
-          desc = item.slice(match[0].length).trim();
-        }
+        rawName = item.trim();
       }
-      const matched = rawName ? findTermByLooseName(rawName) : null;
+
+      const matched = findTermByLooseName(rawName);
       return {
         label: matched ? matched.ko : rawName,
         termId: matched ? matched.id : '',
-        description: desc || item
+        description: description || item
       };
     });
 }
 
-function findTermByLooseName(name) {
-  const normalized = normalize(name);
-  if (!normalized) return null;
-  return terms.find(term => normalize(term.ko) === normalized || normalize(term.en) === normalized)
-    || terms.find(term => normalize(term.ko).includes(normalized) || normalize(term.en).includes(normalized));
-}
-
 function renderImageGallery(term) {
   const images = getTermImages(term);
-  if (!images.length) {
-    return `
-      <section class="detail-image-panel" aria-label="예시 이미지">
-        <div class="image-empty-slot">
-          <span>예시 이미지 준비 중</span>
-        </div>
-      </section>
-    `;
-  }
-
+  const cards = images.length ? images : [''];
   return `
     <section class="detail-image-panel" aria-label="예시 이미지">
       <div class="image-gallery-shell">
         ${images.length > 1 ? '<button class="gallery-nav gallery-nav--prev" type="button" data-gallery-prev aria-label="이전 이미지">‹</button>' : ''}
         <div class="image-gallery" data-image-gallery>
-          ${images.map((src, index) => `
-            <figure class="gallery-card">
-              <img src="${escapeHTML(src)}" alt="${escapeHTML(term.ko)} 예시 이미지 ${index + 1}" loading="lazy" onerror="this.closest('.gallery-card').classList.add('is-missing'); this.remove();" />
+          ${cards.map((src, index) => `
+            <figure class="gallery-card ${src ? '' : 'is-empty'}">
+              ${src ? `<img src="${escapeHTML(src)}" alt="${escapeHTML(term.ko)} 예시 이미지 ${index + 1}" loading="lazy" onerror="this.closest('.gallery-card').classList.add('is-missing'); this.remove();" />` : ''}
               <div class="image-placeholder">
-                <span>이미지 위치</span>
-                <strong>${escapeHTML(src.split('/').pop() || 'image')}</strong>
+                <span>예시 이미지 준비 중</span>
+                ${src ? `<strong>${escapeHTML(src.split('/').pop() || '')}</strong>` : ''}
               </div>
             </figure>
           `).join('')}
@@ -477,7 +470,7 @@ function bindImageGallery(scope) {
   if (!gallery) return;
   const prev = scope.querySelector('[data-gallery-prev]');
   const next = scope.querySelector('[data-gallery-next]');
-  const scrollAmount = () => Math.max(240, gallery.clientWidth * 0.86);
+  const scrollAmount = () => Math.max(240, gallery.clientWidth * 0.92);
   prev?.addEventListener('click', () => gallery.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }));
   next?.addEventListener('click', () => gallery.scrollBy({ left: scrollAmount(), behavior: 'smooth' }));
 }
@@ -497,6 +490,7 @@ function renderDetail(id) {
 
   if (!term) {
     detail.innerHTML = `<h1>용어를 찾을 수 없습니다.</h1><p>삭제되었거나 잘못된 주소입니다.</p>`;
+    related.innerHTML = '';
     return;
   }
 
@@ -508,18 +502,20 @@ function renderDetail(id) {
       <div class="detail-copy-panel">
         <div class="term-header term-header--xlsx">
           <div>
-            <span class="term-category">${escapeHTML(term.category)}</span>
-            <h1>${escapeHTML(term.ko)}</h1>
-            <p class="term-ko">${escapeHTML(term.en)}</p>
+            <span class="term-category">${escapeHTML(term.category || '')}</span>
+            <h1>${escapeHTML(term.ko || '')}</h1>
+            <p class="term-ko">${escapeHTML(term.en || '')}</p>
           </div>
         </div>
 
-        <p class="term-summary">${escapeHTML(term.summary || term.description)}</p>
+        <p class="term-summary">${escapeHTML(term.summary || term.description || '')}</p>
 
-        <section class="detail-card">
-          <h2>설명</h2>
-          <p>${escapeHTML(term.description)}</p>
-        </section>
+        ${term.description ? `
+          <section class="detail-card">
+            <h2>설명</h2>
+            <p>${escapeHTML(term.description)}</p>
+          </section>
+        ` : ''}
 
         ${confusingItems.length ? `
           <section class="detail-card">
@@ -527,7 +523,7 @@ function renderDetail(id) {
             <div class="confusing-list">
               ${confusingItems.map(item => `
                 <div class="confusing-item">
-                  ${item.termId ? `<button type="button" data-term-id="${escapeHTML(item.termId)}">${escapeHTML(item.label)}</button>` : item.label ? `<span>${escapeHTML(item.label)}</span>` : ''}
+                  ${item.termId ? `<button type="button" data-term-id="${escapeHTML(item.termId)}">${escapeHTML(item.label)}</button>` : `<span class="confusing-label">${escapeHTML(item.label)}</span>`}
                   <p>${escapeHTML(item.description)}</p>
                 </div>
               `).join('')}
