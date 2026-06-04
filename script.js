@@ -396,10 +396,27 @@ function toggleMore(categoryName) {
   section.outerHTML = renderCategorySection(categoryName, groupedMap.get(categoryName));
 }
 
+function isNoneImageValue(value) {
+  const raw = String(value || '').trim().toLowerCase();
+  const fileName = raw.split(/[\/]/).pop().replace(/\.(png|jpg|jpeg|webp|gif|svg)$/i, '');
+  return normalizeText(raw) === 'none' || normalizeText(fileName) === 'none';
+}
+
+function hasImageDisabled(term) {
+  const imageValues = [];
+  if (Array.isArray(term.images)) imageValues.push(...term.images);
+  if (term.image) imageValues.push(term.image);
+  return imageValues.some(isNoneImageValue);
+}
+
 function getTermImages(term) {
-  if (Array.isArray(term.images) && term.images.length) return term.images.filter(Boolean);
-  if (term.image) return [term.image];
-  return [];
+  if (hasImageDisabled(term)) return [];
+  const images = [];
+  if (Array.isArray(term.images)) images.push(...term.images);
+  if (term.image) images.push(term.image);
+  return images
+    .map(item => String(item || '').trim())
+    .filter(item => item && !isNoneImageValue(item));
 }
 
 function parseSources(source) {
@@ -440,6 +457,19 @@ function findTermMentionAtStart(text) {
   }) || null;
 }
 
+function formatConfusingDescription(description = '') {
+  let text = String(description || '').trim();
+  const sorted = [...terms]
+    .filter(term => term.en && term.ko)
+    .sort((a, b) => String(b.en).length - String(a.en).length);
+
+  for (const term of sorted) {
+    const escaped = String(term.en).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    text = text.replace(new RegExp(escaped, 'gi'), term.ko);
+  }
+  return text;
+}
+
 function parseConfusingText(value) {
   if (!value) return [];
 
@@ -469,7 +499,7 @@ function parseConfusingText(value) {
       return {
         label: matched.ko,
         termId: matched.id,
-        description
+        description: formatConfusingDescription(description)
       };
     })
     .filter(Boolean);
@@ -489,7 +519,7 @@ function getManualConfusingItems(term) {
     .map(item => ({
       label: item.ko,
       termId: item.id,
-      description: item.summary || item.description || ''
+      description: formatConfusingDescription(item.summary || item.description || '')
     }))
     .filter(item => item.description);
 }
@@ -534,18 +564,17 @@ function getRecommendedTerms(term, confusingItems = []) {
 
 function renderImageGallery(term) {
   const images = getTermImages(term);
-  const cards = images.length ? images : [''];
+  if (!images.length) return '';
   return `
     <section class="detail-image-panel" aria-label="예시 이미지">
       <div class="image-gallery-shell">
         ${images.length > 1 ? '<button class="gallery-nav gallery-nav--prev" type="button" data-gallery-prev aria-label="이전 이미지">‹</button>' : ''}
         <div class="image-gallery" data-image-gallery>
-          ${cards.map((src, index) => `
-            <figure class="gallery-card ${src ? '' : 'is-empty'}">
-              ${src ? `<img src="${escapeHTML(src)}" alt="${escapeHTML(term.ko)} 예시 이미지 ${index + 1}" loading="lazy" onerror="this.closest('.gallery-card').classList.add('is-missing'); this.remove();" />` : ''}
+          ${images.map((src, index) => `
+            <figure class="gallery-card">
+              <img src="${escapeHTML(src)}" alt="${escapeHTML(term.ko)} 예시 이미지 ${index + 1}" loading="lazy" onerror="this.closest('.gallery-card').classList.add('is-missing'); this.remove();" />
               <div class="image-placeholder">
                 <span>예시 이미지 준비 중</span>
-                ${src ? `<strong>${escapeHTML(src.split('/').pop() || '')}</strong>` : ''}
               </div>
             </figure>
           `).join('')}
@@ -646,7 +675,7 @@ function renderDetail(id) {
   related.innerHTML = relatedTerms.length ? `
     <h2>함께 보면 좋은 용어</h2>
     <div class="related-grid related-scroll" aria-label="함께 보면 좋은 용어 목록">
-      ${relatedTerms.map(item => `<button type="button" data-term-id="${escapeHTML(item.id)}">${escapeHTML(item.ko)}<span>${escapeHTML(item.en)}</span></button>`).join('')}
+      ${relatedTerms.map(item => `<button type="button" data-term-id="${escapeHTML(item.id)}"><strong class="related-term-ko">${escapeHTML(item.ko)}</strong><span>${escapeHTML(item.en)}</span></button>`).join('')}
     </div>
   ` : '';
   related.onclick = event => {
